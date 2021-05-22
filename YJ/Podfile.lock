@@ -1,0 +1,54 @@
+PODS:
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
+    - AFNetworking/NSURLSession
+  - DZNEmptyDataSet (1.8.1)
+  - IQKeyboardManager (6.5.6)
+  - Masonry (1.1.0)
+  - MBProgressHUD (1.0.0)
+  - MJExtension (3.2.4)
+  - MJRefresh (3.5.0)
+
+DEPENDENCIES:
+  - AFNetworking
+  - DZNEmptyDataSet
+  - IQKeyboardManager
+  - Masonry
+  - MBProgressHUD (~> 1.0.0)
+  - MJExtension
+  - MJRefresh
+
+SPEC REPOS:
+  trunk:
+    - AFNetworking
+    - DZNEmptyDataSet
+    - IQKeyboardManager
+    - Masonry
+    - MBProgressHUD
+    - MJExtension
+    - MJRefresh
+
+SPEC CHECKSUMS:
+  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MJExtension: 88e0900751b6cac8de1cf724ca9838a0b28d5acb
+  MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
+
+PODFILE CHECKSUM: 727f6171932830d97e8398ddd093e9c556abf792
+
+COCOAPODS: 1.10.0.beta.2
