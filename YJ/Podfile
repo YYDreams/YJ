@@ -6,7 +6,6 @@ target 'YJ' do
   use_frameworks!
 
 pod 'Masonry'
-#pod 'SDWebImage'
 pod 'AFNetworking'
 pod 'MJRefresh'
 pod 'MJExtension'
@@ -15,7 +14,13 @@ pod 'DZNEmptyDataSet'
 pod "MBProgressHUD", '~> 1.0.0'
 pod 'JXPagingView/Pager'
 pod 'JXCategoryView', '= 1.5.6'
-
+pod 'JXPagingView/Pager'
+pod 'JXCategoryView', '= 1.5.6'
+pod 'JCore'
+pod 'JPush'
+pod 'MMKV', '= 1.1.2'
+pod "JSONModel", '~> 1.7.0'
+pod 'MNFloatBtn'
 
   # Pods for YJ
 

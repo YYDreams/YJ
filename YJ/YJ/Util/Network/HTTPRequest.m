@@ -10,7 +10,6 @@
 
 #import <AFNetworking/AFNetworking.h>
 #import "AFHTTPSessionManager+Config.h"
-#import "MBProgressHUD+Category.h"
 #import "HTTPRequest+NotLogin.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
@@ -86,7 +85,8 @@
 
 #pragma mark - host管理
 + (NSString *)InterfaceUrl:(NSString *)url{
-    NSString *urlstring = [NSString stringWithFormat:@"%@/%@",MAIN_URL,url];
+  NSString *baseUrl =  [[NSUserDefaults standardUserDefaults]valueForKey:kBaseUrl];
+    NSString *urlstring = [NSString stringWithFormat:@"%@/%@",baseUrl,url];
     return urlstring;
 }
 
@@ -95,7 +95,7 @@
 {
     AFHTTPSessionManager *manager = [HTTPRequest requestManager];
     // 如果已有Cookie, 则把你的cookie符上
-    NSString *cookie = [[NSUserDefaults standardUserDefaults] objectForKey:@"Authorization"];
+    NSString *cookie = [YJLoginManager sharedInstance].token;
     if (cookie != nil) {
         [manager.requestSerializer setValue:cookie forHTTPHeaderField:@"Authorization"];
     }
@@ -103,8 +103,7 @@
     //配置公共参数
     parameter = [AFHTTPSessionManager configBaseParmars:parameter];
     NSURLSessionDataTask *task = [manager GET:[HTTPRequest InterfaceUrl:urlString] parameters:parameter headers:nil progress:nil  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-       NSLog(@"urlString: %@ --\n parameter%@",urlString,parameter);
-              
+        NSLog(@"urlString: %@ --\n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
               NSString *response = nil;
               if ([responseObject isKindOfClass:[NSData class]]) {
                   response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
@@ -141,27 +140,34 @@
 + (LYRequestModel *)POST:(NSString *)urlString  parameter:(NSDictionary *)parameter  success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue{
     
     AFHTTPSessionManager *manager = [HTTPRequest requestManager];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    if ([urlString isEqualToString:kSendWaiterCaptchaUrl]) {
+        
+        manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    }else{
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+
+    }
 
     
     //配置公共参数  直接将token放到里面的  后来token作为请求头了
     parameter = [AFHTTPSessionManager configBaseParmars:parameter];
     
     // 如果已有Cookie, 则把你的cookie符上
-    NSString *cookie = [[NSUserDefaults standardUserDefaults] objectForKey:@"Authorization"];
+    NSString *cookie = [YJLoginManager sharedInstance].token;
     if (cookie != nil) {
         [manager.requestSerializer setValue:cookie forHTTPHeaderField:@"Authorization"];
     }
     
     [HTTPRequest showActive];
     NSURLSessionDataTask *task =   [manager POST:[HTTPRequest InterfaceUrl:urlString] parameters:parameter headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"urlString: %@ --\n parameter%@",urlString,parameter);
+        NSLog(@"urlString: %@ --\n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
         
-        NSHTTPURLResponse* urlresponse = (NSHTTPURLResponse* )task.response;
-        NSDictionary *allHeaderFieldsDic = urlresponse.allHeaderFields;
-        NSString *setCookie = allHeaderFieldsDic[@"Authorization"];
+//        NSHTTPURLResponse* urlresponse = (NSHTTPURLResponse* )task.response;
+//        NSDictionary *allHeaderFieldsDic = urlresponse.allHeaderFields;
+        NSString *setCookie = [YJLoginManager sharedInstance].token;
+//        allHeaderFieldsDic[@"Authorization"];
         if (setCookie != nil) {
-            NSString *cookie = [[setCookie componentsSeparatedByString:@";"] objectAtIndex:0];
+//            NSString *cookie = [[setCookie componentsSeparatedByString:@";"] objectAtIndex:0];
             // 这里对cookie进行存储
             [[NSUserDefaults standardUserDefaults] setObject:cookie forKey:@"Authorization"];
         }
@@ -189,69 +195,64 @@
     return requestModel;
 }
 
-+ (LYRequestModel *)GET:(NSString *)urlString parameter:(NSDictionary *)parameter success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue view:(UIView*)view progressHubShow:(BOOL)show
-{
+/*PUT请求*/
++ (LYRequestModel *)PUT:(NSString *)urlString  parameter:(NSDictionary *)parameter  success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue{
+    
     AFHTTPSessionManager *manager = [HTTPRequest requestManager];
-    //[HTTPRequest setCookie];
-    //配置公共参数
-    //    parameter = [AFHTTPSessionManager configBaseParmars:parameter];
-    
-    if (show) [MBProgressHUD LY_ShowHUD:view animation:YES];
-    
-       NSURLSessionDataTask *task =   [manager GET:[HTTPRequest InterfaceUrl:urlString] parameters:parameter headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-           
-        if (show) [MBProgressHUD LY_HideHUDForView:view];
+    if ([urlString isEqualToString:kSendWaiterCaptchaUrl]) {
         
-        if (responseObject&&[responseObject isKindOfClass:[NSDictionary class]])
-        {
-            
-            [HTTPRequest handelSuccessRequest:task responseObject:responseObject success:success fail:failue];
-        }
-        else
-        {
-            NSError * error = [NSError errorWithDomain:@"服务器出错了" code:-100 userInfo:@{@"message":@"服务器返回的不是json或者是空对象"}];
-            [HTTPRequest handelFailRequest:task err:error fail:failue];
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (show) [MBProgressHUD LY_HideHUDForView:view];
-        [HTTPRequest handelFailRequest:task err:error fail:failue];
-    }];
-    
-    LYRequestModel *requestModel = [LYRequestModel newWithTask:task];
-    return requestModel;
-}
+        manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    }else{
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
 
-+ (LYRequestModel *)POST:(NSString *)urlString parameter:(NSDictionary *)parameter  success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue view:(UIView*)view progressHubShow:(BOOL)show;
-{
-    AFHTTPSessionManager *manager = [HTTPRequest requestManager];
-    //[HTTPRequest setCookie];
+    }
+
+    
+    //配置公共参数  直接将token放到里面的  后来token作为请求头了
+    parameter = [AFHTTPSessionManager configBaseParmars:parameter];
+    
+    // 如果已有Cookie, 则把你的cookie符上
+    NSString *cookie = [YJLoginManager sharedInstance].token;
+    if (cookie != nil) {
+        [manager.requestSerializer setValue:cookie forHTTPHeaderField:@"Authorization"];
+    }
+    
     [HTTPRequest showActive];
-    if (show) [MBProgressHUD LY_ShowHUD:view animation:YES];
-    //配置公共参数
-    //    parameter = [AFHTTPSessionManager configBaseParmars:parameter];
-    
-   NSURLSessionDataTask *task =   [manager GET:[HTTPRequest InterfaceUrl:urlString] parameters:parameter headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if (show) [MBProgressHUD LY_HideHUDForView:view];
-        if (responseObject&&[responseObject isKindOfClass:[NSDictionary class]])
-        {
+    NSURLSessionDataTask *task =   [manager PUT:[HTTPRequest InterfaceUrl:urlString] parameters:parameter headers:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"urlString: %@ --\n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
+        
+//        NSHTTPURLResponse* urlresponse = (NSHTTPURLResponse* )task.response;
+//        NSDictionary *allHeaderFieldsDic = urlresponse.allHeaderFields;
+        NSString *setCookie = [YJLoginManager sharedInstance].token;
+//        allHeaderFieldsDic[@"Authorization"];
+        if (setCookie != nil) {
+//            NSString *cookie = [[setCookie componentsSeparatedByString:@";"] objectAtIndex:0];
+            // 这里对cookie进行存储
+            [[NSUserDefaults standardUserDefaults] setObject:cookie forKey:@"Authorization"];
+        }
+        
+        if ([responseObject isKindOfClass:[NSData class]]) {
+            NSString * response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+            NSData * data = [response dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary * dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            [HTTPRequest handelSuccessRequest:task responseObject:dic success:success fail:failue];
+            return;
+        }
+
+        if (responseObject&&[responseObject isKindOfClass:[NSDictionary class]]) {
             [HTTPRequest handelSuccessRequest:task responseObject:responseObject success:success fail:failue];
         }
-        else
-        {
+        else{
             NSError * error = [NSError errorWithDomain:@"服务器出错了" code:-100 userInfo:@{@"message":@"服务器返回的不是json或者是空对象"}];
             [HTTPRequest handelFailRequest:task err:error fail:failue];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (show) [MBProgressHUD LY_HideHUDForView:view];
         [HTTPRequest handelFailRequest:task err:error fail:failue];
     }];
     
     LYRequestModel *requestModel = [LYRequestModel newWithTask:task];
     return requestModel;
-    
 }
-
-
 
 +(void)UPLOAD:(NSString*)url image:(UIImage *)image parameter:(id)parameter  progress:(void(^)(CGFloat progress))progres        success:(void (^)(id responseOBj))success
       failure:(void (^)(NSError *error))failure{
@@ -345,8 +346,7 @@
     //配置公共参数
     params = [AFHTTPSessionManager configBaseParmars:params];
     
-    //[HTTPRequest setCookie];
-//    NSURLSessionDataTask *task = [manager POST:url parameters:params headers:<#(nullable NSDictionary<NSString *,NSString *> *)#> constructingBodyWithBlock:<#^(id<AFMultipartFormData>  _Nonnull formData)block#> progress:<#^(NSProgress * _Nonnull uploadProgress)uploadProgress#> success:<#^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)success#> failure:<#^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)failure#>]
+
     NSURLSessionDataTask *task = [manager POST:url parameters:params   headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         for (NSString *key in uploadParam.allKeys) {
              [formData appendPartWithFileData:uploadParam[key] name:key fileName:[NSString stringWithFormat:@"%@.jpg",key] mimeType:@"image/jpg"];
@@ -372,7 +372,6 @@
     
     NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
     NSInteger statusCode = response.statusCode;
-    NSLog(@"success statusCode %ld===============",statusCode);
     
     if (statusCode == resultCode_1032) {  //您的登录地址发生了改变，请通过短信验证码登录'
         
@@ -405,11 +404,11 @@
         if (isSingle){ return; }
         
     }else if(statusCode == 501){
-        NSString *time = dic[@"time"];
-        NSString *msgTip  = [HTTPRequest HeaderFieldWithMsg:[dic[@"msg"] integerValue]];
-        NSString *msg = [NSString stringWithFormat:@"您的账号于%@在另一台设备登录。登录方式:%@。如非本人操作，请及时修改密码",time,msgTip];
-        BOOL isSingle  =  [HTTPRequest singleLoginWithResult:statusCode msg:msg];
-        if (isSingle){ return; }
+//        NSString *time = dic[@"time"];
+//        NSString *msgTip  = [HTTPRequest HeaderFieldWithMsg:[dic[@"msg"] integerValue]];
+//        NSString *msg = [NSString stringWithFormat:@"您的账号于%@在另一台设备登录。登录方式:%@。如非本人操作，请及时修改密码",time,msgTip];
+//        BOOL isSingle  =  [HTTPRequest singleLoginWithResult:statusCode msg:msg];
+//        if (isSingle){ return; }
         
     }
     

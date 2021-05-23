@@ -51,35 +51,14 @@ typedef void(^requestErrorCallBack)(NSError *error);
 /*POST请求*/
 + (LYRequestModel *)POST:(NSString *)urlString  parameter:(NSDictionary *)parameter  success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue;
 
+/*PUT请求*/
++ (LYRequestModel *)PUT:(NSString *)urlString  parameter:(NSDictionary *)parameter  success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue;
+
+
 /*POST请求*/
 + (LYRequestModel *)UPLOAD:(NSString *)url uploadParam:(NSDictionary *)uploadParam params:(id)params progress:(void (^)(NSProgress * uploadProgress))progress success:(requestSuccessCallBack)success  failure:(requestErrorCallBack)failure;
 
 
 +(void)UPLOAD:(NSString*)url image:(UIImage *)image parameter:(id)parameter  progress:(void(^)(CGFloat progress))progres        success:(void (^)(id responseOBj))success
       failure:(void (^)(NSError *error))failure;
-
-/**
- GET请求
- @param urlString 请求地址
- @param parameter 请求参数
- @param success 请求成功的回调
- @param failue 请求失败的回调
- @param view 当前视图
- @param show 是否显示加载菊花
- @return 请求对象
- */
-+ (LYRequestModel *)GET:(NSString *)urlString parameter:(NSDictionary *)parameter success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue view:(UIView*)view progressHubShow:(BOOL)show;
-
-
-/*!
- Post 请求 参数解释同Post
- @param urlString <#urlString description#>
- @param parameter <#parameter description#>
- @param success <#success description#>
- @param failue <#failue description#>
- @param view <#view description#>
- @param show <#show description#>
- @return <#return value description#>
- */
-+ (LYRequestModel *)POST:(NSString *)urlString parameter:(NSDictionary *)parameter  success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue view:(UIView*)view progressHubShow:(BOOL)show;
 @end

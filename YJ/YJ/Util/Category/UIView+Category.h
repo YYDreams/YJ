@@ -2,7 +2,7 @@
 //  UIView+Category.h
 //  SamClub
 //
-//  Created by zoyagzhou on 2019/12/19.
+//  Created by huahua on 2019/12/19.
 //  Copyright © 2019 tencent. All rights reserved.
 //
 
@@ -13,6 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 //#define SC_TOPBAR_HEIGHT            (StatusBarHeight + NavigationBarHeight)
 //#define SC_TOPVIEW_HEIGHT           (SCREEN_HEIGHT >= 812.0 ? 88 : 64)
 
+
+//frame操作
+#define kOriginX(a)     (a.frame.origin.x)
+#define kOriginY(a)     (a.frame.origin.y)
+#define kSizeW(a)       (a.frame.size.width)
+#define kSizeH(a)       (a.frame.size.height)
 
 
 #define kCurrAppBuild ([[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]) //(build)
@@ -118,5 +124,26 @@ typedef enum : NSInteger {
 - (UIButton *)hh_gradientButtonWithSize:(CGSize)btnSize colorArray:(NSArray *)clrs percentageArray:(NSArray *)percent gradientType:(GradientType)type;
 
 @end
+
+
+@interface UIBarButtonItem (HHAddition)
+
+/**
+ 创建导航栏左右两边的按钮(image/hightImage/target/action)
+
+ @param image 默认图片
+ @param hightImage 高亮图片
+ @param target self
+ @param action 响应事件
+ @return itrm
+ */
++ (instancetype)itemWithImage:(NSString *)image highImage:(NSString *)hightImage target:(id)target action:(SEL)action;
+
+
++ (instancetype)itemWithtitle:(NSString *)title  target:(id)target action:(SEL)action;
+
+@end
+
+
 
 NS_ASSUME_NONNULL_END

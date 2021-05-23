@@ -2,7 +2,7 @@
 //  UIView+Category.m
 //  SamClub
 //
-//  Created by zoyagzhou on 2019/12/19.
+//  Created by huahua on 2019/12/19.
 //  Copyright © 2019 tencent. All rights reserved.
 //
 
@@ -361,4 +361,30 @@
     
     return self;
 }
+@end
+
+
+@implementation UIBarButtonItem (HHAddition)
++ (instancetype)itemWithImage:(NSString *)image highImage:(NSString *)hightImage target:(id)target action:(SEL)action{
+
+    UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setBackgroundImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[UIImage imageNamed:hightImage] forState:UIControlStateHighlighted];
+
+    [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    btn.size = btn.currentBackgroundImage.size;
+    
+    return [[self alloc]initWithCustomView:btn];
+}
++ (instancetype)itemWithtitle:(NSString *)title  target:(id)target action:(SEL)action{
+
+    UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    btn.size = btn.currentBackgroundImage.size;
+    
+    return [[self alloc]initWithCustomView:btn];
+}
+
+
 @end

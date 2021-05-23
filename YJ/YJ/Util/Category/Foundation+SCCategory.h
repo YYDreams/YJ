@@ -2,7 +2,7 @@
 //  Foundation+SCCategory.h
 //  SamClub
 //
-//  Created by zoyagzhou on 2019/12/19.
+//  Created by huahua on 2019/12/19.
 //  Copyright © 2019 tencent. All rights reserved.
 //
 
