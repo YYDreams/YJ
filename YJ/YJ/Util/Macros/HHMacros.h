@@ -65,9 +65,14 @@ isiPhoneX;\
 //正式服务器地址
 #define kBaseUrlOnline @"http://47.110.49.157:8090"
 
-#define MAIN_URL @"http://47.110.49.157:8090"
 
 /*--------------------------------- key 相关----------------------------------*/
+
+// JPush
+#define JPushAppKey @"655289800951f457cf6f3203"
+#define JPushAppSecret @"50b5d35b94b1383a901b119c"
+
+
 
 
 #define  Success [resposeObject[@"success"] boolValue]

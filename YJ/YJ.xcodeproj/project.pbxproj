@@ -20,6 +20,7 @@
 		51AD751B265A9B1F008DFDF8 /* SCDeveloperTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD7519265A9B1F008DFDF8 /* SCDeveloperTableViewCell.m */; };
 		51AD751E265A9C01008DFDF8 /* SCDeveloperHFView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD751C265A9C01008DFDF8 /* SCDeveloperHFView.m */; };
 		51AD7531265AA3F0008DFDF8 /* HHDeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD7530265AA3F0008DFDF8 /* HHDeveloperViewController.m */; };
+		51AD7536265AACF0008DFDF8 /* AppDelegate+JPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD7535265AACF0008DFDF8 /* AppDelegate+JPush.m */; };
 		51B5EBE326596FD500F86225 /* HHConstUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B5EBE226596FD500F86225 /* HHConstUrl.m */; };
 		51B5EBE6265971D800F86225 /* HomeCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B5EBE5265971D800F86225 /* HomeCategoryViewController.m */; };
 		51B5EBF92659E6B600F86225 /* YJLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B5EBF82659E6B600F86225 /* YJLoginManager.m */; };
@@ -111,6 +112,9 @@
 		51AD751C265A9C01008DFDF8 /* SCDeveloperHFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCDeveloperHFView.m; sourceTree = "<group>"; };
 		51AD751D265A9C01008DFDF8 /* SCDeveloperHFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCDeveloperHFView.h; sourceTree = "<group>"; };
 		51AD7530265AA3F0008DFDF8 /* HHDeveloperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHDeveloperViewController.m; sourceTree = "<group>"; };
+		51AD7534265AACF0008DFDF8 /* AppDelegate+JPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+JPush.h"; sourceTree = "<group>"; };
+		51AD7535265AACF0008DFDF8 /* AppDelegate+JPush.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+JPush.m"; sourceTree = "<group>"; };
+		51AD7537265AAD3C008DFDF8 /* YJ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YJ.entitlements; sourceTree = "<group>"; };
 		51B5EBE126596FD500F86225 /* HHConstUrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHConstUrl.h; sourceTree = "<group>"; };
 		51B5EBE226596FD500F86225 /* HHConstUrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHConstUrl.m; sourceTree = "<group>"; };
 		51B5EBE4265971D800F86225 /* HomeCategoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeCategoryViewController.h; sourceTree = "<group>"; };
@@ -303,6 +307,8 @@
 				51AD750D265A9064008DFDF8 /* AppDelegate+Config.m */,
 				51AD750F265A9064008DFDF8 /* AppDelegate+UI.h */,
 				51AD750C265A9064008DFDF8 /* AppDelegate+UI.m */,
+				51AD7534265AACF0008DFDF8 /* AppDelegate+JPush.h */,
+				51AD7535265AACF0008DFDF8 /* AppDelegate+JPush.m */,
 			);
 			path = AppDelegate;
 			sourceTree = "<group>";
@@ -538,6 +544,7 @@
 		7805BB1A26580F8300A5D121 /* YJ */ = {
 			isa = PBXGroup;
 			children = (
+				51AD7537265AAD3C008DFDF8 /* YJ.entitlements */,
 				7805BB2726580F8400A5D121 /* Assets.xcassets */,
 				7805BB2C26580F8400A5D121 /* Info.plist */,
 				7805BB2926580F8400A5D121 /* LaunchScreen.storyboard */,
@@ -907,6 +914,7 @@
 				51AD7514265A9175008DFDF8 /* HHNetworkConfig.m in Sources */,
 				51B5EC142659E71800F86225 /* BaseCell.m in Sources */,
 				51B5EC152659E71800F86225 /* BaseWebViewController.m in Sources */,
+				51AD7536265AACF0008DFDF8 /* AppDelegate+JPush.m in Sources */,
 				51B5EC182659E71800F86225 /* BaseUIViewController.m in Sources */,
 				51B5EC1C2659E71800F86225 /* BaseModel.m in Sources */,
 				7805BBBE26581DDD00A5D121 /* UIView+Category.m in Sources */,
@@ -1074,16 +1082,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = YJ/YJ.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z85T74BVPW;
+				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/YJ/PrefixHeader.pch";
 				INFOPLIST_FILE = YJ/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = flowerflower.YJ;
+				PRODUCT_BUNDLE_IDENTIFIER = "-0210524yj";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1094,16 +1105,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = YJ/YJ.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z85T74BVPW;
+				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/YJ/PrefixHeader.pch";
 				INFOPLIST_FILE = YJ/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = flowerflower.YJ;
+				PRODUCT_BUNDLE_IDENTIFIER = "-0210524yj";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

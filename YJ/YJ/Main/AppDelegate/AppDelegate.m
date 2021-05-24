@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "AppDelegate+UI.h"
 #import "AppDelegate+Config.h"
+#import "AppDelegate+JPush.h"
 
 @interface AppDelegate ()
 
@@ -30,6 +31,9 @@
     
     
     [self initFloatBtn];
+    
+//    [self initJPushWithLanchOption:launchOptions];
+    
     
     [self.window makeKeyAndVisible];
     
