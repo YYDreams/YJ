@@ -71,7 +71,15 @@
             [self goToMssageViewControllerWith:remoteNotification];
         }
     }
-    
+    //设置别名
+    [self setupAlias];
+}
+- (void)setupAlias{
+    if ([[YJLoginManager sharedInstance] isLogin]) {
+        [JPUSHService setAlias:HHString([YJLoginManager sharedInstance].model.mobile, @"匿名") completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+            NSLog(@"rescode: %ld, \ntags: %@, \nalias:\n", (long)iResCode, iAlias);
+        } seq:0];
+    }
 }
 
 #pragma mark - SEL
@@ -80,7 +88,6 @@
     UIViewController *vc = nil;
     
     NSLog(@"msgDicmsgDicmsgDic%@,",msgDic);
-    return;
     [self pushToViewControllerWithVC:vc];
 }
 
@@ -103,10 +110,18 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 // iOS 12 Support
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center openSettingsForNotification:(UNNotification *)notification{
+    NSLog(@"notification:%@",notification);
+    
+    NSDictionary * userInfo = notification.request.content.userInfo;
+
   if (notification && [notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
     //从通知界面直接进入应用
+      [self pushToViewControllerWithVC:nil];
+      
   }else{
     //从通知设置界面进入应用
+      [self pushToViewControllerWithVC:nil];
+      
   }
 }
 
@@ -114,6 +129,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
   // Required
   NSDictionary * userInfo = notification.request.content.userInfo;
+    
   if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
     [JPUSHService handleRemoteNotification:userInfo];
   }
@@ -124,10 +140,20 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
   // Required
   NSDictionary * userInfo = response.notification.request.content.userInfo;
+    UNNotificationRequest *request = response.notification.request; // 收到推送的请求
+    UNNotificationContent *content = request.content; // 收到推送的消息内容
+    NSNumber *badge = content.badge;  // 推送消息的角标
+    NSString *body = content.body;    // 推送消息体
+    UNNotificationSound *sound = content.sound;  // 推送消息的声音
+    NSString *subtitle = content.subtitle;  // 推送消息的副标题
+    NSString *title = content.title;  // 推送消息的标题
+    
   if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
     [JPUSHService handleRemoteNotification:userInfo];
   }
   completionHandler();  // 系统要求执行这个方法
+    NSLog(@"iOS10 前台收到本地通知:{\nbody:%@，\ntitle:%@,\nsubtitle:%@,\nbadge：%@，\nsound：%@，\nuserInfo：%@\n}",body,title,subtitle,badge,sound,userInfo);
+    
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
@@ -151,11 +177,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 -(void)pushToViewControllerWithVC:(UIViewController *)vc {
     BaseTabBarViewController *tab = (BaseTabBarViewController *)self.window.rootViewController;
-    BaseNavViewController  *nvc = tab.selectedViewController;
-    UIViewController *viewController = nvc.visibleViewController;
-    viewController.hidesBottomBarWhenPushed=YES;
-    [viewController.navigationController pushViewController:vc animated:YES];
-    viewController.hidesBottomBarWhenPushed=NO;
+    tab.selectedIndex = 0;
+//    BaseNavViewController  *nvc = tab.selectedViewController;
+   
 }
+
 
 @end

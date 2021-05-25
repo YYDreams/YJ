@@ -29,7 +29,7 @@
     self.model.selected = sender.selected;
     
     if (self.handerSwitchBlock) {
-        self.handerSwitchBlock(!self.model.selected);
+        self.handerSwitchBlock(self.model.selected);
     }
     
 }

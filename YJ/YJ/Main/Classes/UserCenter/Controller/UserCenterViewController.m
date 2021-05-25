@@ -43,6 +43,7 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
             UserInfoModel *model = [[UserInfoModel alloc]initWithDictionary:resposeObject[@"body"][@"data"]];
             [YJLoginManager sharedInstance].model = model;
             [[YJLoginManager sharedInstance] saveUserModel];
+            [self.tableView reloadData];
 
         }else{
             [HHHudManager showTipMessageInWindow:resposeObject[@"msg"]?:@""];
@@ -54,21 +55,13 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
     }];
 }
 - (void)updateMahjongHallWaiter{
-    
-    ///
+
 //    receiveCall 是否接收语音推送 0-不接收 1-接收
-//    workState 工作状态 0-休息中 1-工作中
-    
-    NSLog(@"11111111::::::::::%d, %d", self.receiveCall, self.workState);
+//    workState 工作状态 0-休息中 1-工作中    
     [HTTPRequest PUT:kUpdateMahjongHallWaiterUrl parameter:@{@"receiveCall":@(self.receiveCall),@"workState":@(self.workState)} success:^(id resposeObject) {
        
         if (Success) {
-//            [YJLoginManager sharedInstance].model.receiveCall = self.receiveCall;
-//            [YJLoginManager sharedInstance].model.workState = self.workState;
-//            [[YJLoginManager sharedInstance] saveUserModel];
-
-            NSLog(@"11111111::::::::::%d, %d", [YJLoginManager sharedInstance].model.receiveCall,[YJLoginManager sharedInstance].model.workState);
-
+            [self getUserInfo];
         }
         
         [HHHudManager showTipMessageInWindow:resposeObject[@"msg"]?:@"更新失败"];
@@ -93,7 +86,6 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
     cell.model = model;
     WeakSelf;
     cell.handerSwitchBlock = ^(BOOL isSeleted) {
-        NSLog(@"isSeletedisSeleted:%d",isSeleted);
         if (model.cellType == MineCellTypePush) {
             weakSelf.receiveCall = isSeleted;
             [weakSelf updateMahjongHallWaiter];
@@ -149,9 +141,7 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
     }];
 }
 - (NSArray *)dataArr{
-    
     if (!_dataArr) {
-        
     NSString *version = [NSString stringWithFormat:@"v%@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
     NSArray *titles = @[@"语音推送",@"版本管理",@"上班"];
     NSMutableArray *temp = [NSMutableArray array];
@@ -168,6 +158,8 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
         }else{
             model.selected = NO;
         }
+        self.receiveCall = [YJLoginManager sharedInstance].model.receiveCall;
+        self.workState = [YJLoginManager sharedInstance].model.workState;
         [temp addObject:model];
        }
         _dataArr = temp.copy;

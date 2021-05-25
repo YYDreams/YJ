@@ -69,8 +69,8 @@ isiPhoneX;\
 /*--------------------------------- key 相关----------------------------------*/
 
 // JPush
-#define JPushAppKey @"655289800951f457cf6f3203"
-#define JPushAppSecret @"50b5d35b94b1383a901b119c"
+#define JPushAppKey @"ff2faad87a10cced246c6782"
+#define JPushAppSecret @"a7fc66202d093f1a0c6d96e9"
 
 
 

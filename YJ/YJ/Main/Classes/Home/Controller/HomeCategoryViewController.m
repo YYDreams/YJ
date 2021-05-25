@@ -134,7 +134,7 @@
         _categoryView.defaultSelectedIndex = self.selectedIndex;
         _categoryView.backgroundColor = [UIColor whiteColor];
         _categoryView.delegate = self;
-        _categoryView.titleSelectedColor = [UIColor colorWithHex:0x0165B8];
+        _categoryView.titleSelectedColor = kThemeColor;
         _categoryView.titleColor = [UIColor colorWithHex:0x222427];
         _categoryView.titleSelectedFont = [UIFont systemFontOfSize:14.f weight:UIFontWeightMedium];
         _categoryView.titleFont = [UIFont systemFontOfSize:14.f weight:UIFontWeightRegular];
@@ -151,7 +151,7 @@
         _categoryView.cellWidth = [UIScreen mainScreen].bounds.size.width/(_categoryView.titles.count);
         
         JXCategoryIndicatorLineView *lineView = [[JXCategoryIndicatorLineView alloc] init];
-        lineView.indicatorColor = [UIColor colorWithHex:0x0165b8];
+        lineView.indicatorColor = kThemeColor;
         lineView.indicatorWidth = 16.f;
         lineView.indicatorHeight = 2.f;
         lineView.indicatorCornerRadius = 0;

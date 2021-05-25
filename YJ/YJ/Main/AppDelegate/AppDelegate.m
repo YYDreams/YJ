@@ -21,18 +21,17 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    [self initNetWorkConfig];
-    
-    [self initMMKV];
-    
     [self initRootViewController];
     
     [self initAudio];
     
+//    [self initNetWorkConfig];
     
-    [self initFloatBtn];
+    [self initMMKV];
     
-//    [self initJPushWithLanchOption:launchOptions];
+//    [self initFloatBtn];
+    
+    [self initJPushWithLanchOption:launchOptions];
     
     
     [self.window makeKeyAndVisible];

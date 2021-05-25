@@ -94,7 +94,12 @@ static NSString * const HomeCellID = @"HomeCellID";
     self.tableView.rowHeight = 160;
     
      [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-         make.left.right.top.bottom.equalTo(self.view);
+         make.left.right.top.equalTo(self.view);
+         if (@available(iOS 11.0, *)) {
+                  make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+              } else {
+                  make.bottom.equalTo(self.view);
+              }
          
      }];
 }

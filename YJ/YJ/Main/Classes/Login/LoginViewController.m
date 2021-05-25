@@ -46,6 +46,7 @@
     self.loginBtn.layer.shadowOpacity = 1;
     self.loginBtn.layer.shadowRadius = 4;
     
+    
     NSString *bgImg = IS_iPhoneX?@"backgroundX1":@"background1";
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:bgImg] forBarMetrics:UIBarMetricsDefault];    

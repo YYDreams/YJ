@@ -7,6 +7,7 @@
 
 #import "YJLoginManager.h"
 #import "HHAppStorage.h"
+#import "JPUSHService.h"
 @implementation YJLoginManager
 @synthesize model = _model;
 
@@ -21,8 +22,16 @@ SC_SINGLETON_IMP;
 - (void)saveUserModel{
      
     [HHAppStorage sharedInstance].lastUserModel = _model;
+    
+    [self setupPushUserName];
 }
-
+//设置push别名<可根据手机号进行推送>
+- (void)setupPushUserName{
+    
+    [JPUSHService setAlias:HHString([HHAppStorage sharedInstance].lastUserModel.mobile, @"匿名") completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSLog(@"rescode: %ld, \ntags: %@, \nalias:\n", (long)iResCode, iAlias);
+    } seq:0];
+}
 -(UserInfoModel *)model{
     if (!_model) {
         _model = [HHAppStorage sharedInstance].lastUserModel;
@@ -41,6 +50,11 @@ SC_SINGLETON_IMP;
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kToken];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"khallIds"];
     self.model = nil;
+    
+    [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSLog(@"rescode: %ld, \ntags: %@, \nalias:\n", (long)iResCode, iAlias);
+
+    } seq:0];
     
 }
 - (void)setHallIds:(NSString *)hallIds{
