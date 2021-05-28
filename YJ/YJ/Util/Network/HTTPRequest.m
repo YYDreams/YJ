@@ -378,11 +378,11 @@
         if (isSingle){
             return;
         }
-    }else{
-        if (success) {
-            success(responseObject);
-        }
     }
+    if (success) {
+        success(responseObject);
+    }
+    
 }
 
 

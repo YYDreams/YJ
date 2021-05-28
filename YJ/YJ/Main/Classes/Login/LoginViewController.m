@@ -68,17 +68,26 @@
     [HTTPRequest POST:kSendWaiterCaptchaUrl parameter:@{@"phoneNumber":HHString(self.phoneTextField.text, @"")} success:^(id resposeObject) {
         [HHHudManager hideHUD];
 
-        if (Success) {
-            
-      
-        }else{
-            NSLog(@"--%@",resposeObject[@"msg"]);
-            [HHHudManager showTipMessageInWindow:resposeObject[@"msg"]?:@"获取失败"];
+        NSLog(@"--%@",resposeObject[@"msg"]);
+        [HHHudManager showTipMessageInWindow:resposeObject[@"msg"]?:@"获取失败"];
+        if([resposeObject[@"msg"] containsString:@"发送验证码失败"]){
+            if (self.timer) {
+                dispatch_cancel(self.timer);
+                self.timer = nil;
+            }
+            [self.codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+            self.codeBtn.enabled = YES;
         }
         
     } failure:^(NSError *error) {
+        if (self.timer) {
+            dispatch_cancel(self.timer);
+            self.timer = nil;
+        }
+        [self.codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        self.codeBtn.enabled = YES;
         [HHHudManager hideHUD];
-        [HHHudManager showErrorMessage:@"获取失败"];
+        [HHHudManager showTipMessageInWindow:@"获取失败"];
     }];
     
 }

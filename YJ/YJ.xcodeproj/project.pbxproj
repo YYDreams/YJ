@@ -1125,8 +1125,9 @@
 			baseConfigurationReference = 08DDF0EF3FFD25361D6D372C /* Pods-YJTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z85T74BVPW;
+				DEVELOPMENT_TEAM = P876T3DAQ6;
 				INFOPLIST_FILE = YJTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1166,8 +1167,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CEA265105839F15EA0102A67 /* Pods-YJ-YJUITests.debug.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Z85T74BVPW;
+				DEVELOPMENT_TEAM = P876T3DAQ6;
 				INFOPLIST_FILE = YJUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

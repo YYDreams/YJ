@@ -33,7 +33,8 @@ static CGFloat const defalutAlpha = 1.0;
     hud.bezelView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.88];
 //    hud.animationType = MBProgressHUDAnimationZoomIn;//放大消失
     hud.activityIndicatorColor = [UIColor whiteColor];
-    hud.backgroundView.color = backColor? backColor:[UIColor clearColor];
+//    hud.backgroundView.color = backColor? backColor:[UIColor clearColor];
+    hud.bezelView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     
     return hud;
 }
