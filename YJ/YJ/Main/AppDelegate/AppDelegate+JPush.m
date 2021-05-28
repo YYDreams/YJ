@@ -61,7 +61,7 @@
 //    // notice: 2.1.5 版本的 SDK 新增的注册方法，改成可上报 IDFA，如果没有使用 IDFA 直接传 nil
     [JPUSHService setupWithOption:launchOptions appKey:JPushAppKey
                           channel:@"App Store"
-                 apsForProduction:0
+                 apsForProduction:false
             advertisingIdentifier:nil];
     if (launchOptions) {
         NSDictionary * remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];

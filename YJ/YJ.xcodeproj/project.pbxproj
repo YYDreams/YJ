@@ -114,7 +114,6 @@
 		51AD7530265AA3F0008DFDF8 /* HHDeveloperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHDeveloperViewController.m; sourceTree = "<group>"; };
 		51AD7534265AACF0008DFDF8 /* AppDelegate+JPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+JPush.h"; sourceTree = "<group>"; };
 		51AD7535265AACF0008DFDF8 /* AppDelegate+JPush.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+JPush.m"; sourceTree = "<group>"; };
-		51AD7537265AAD3C008DFDF8 /* YJ.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YJ.entitlements; sourceTree = "<group>"; };
 		51B5EBE126596FD500F86225 /* HHConstUrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHConstUrl.h; sourceTree = "<group>"; };
 		51B5EBE226596FD500F86225 /* HHConstUrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHConstUrl.m; sourceTree = "<group>"; };
 		51B5EBE4265971D800F86225 /* HomeCategoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeCategoryViewController.h; sourceTree = "<group>"; };
@@ -544,7 +543,6 @@
 		7805BB1A26580F8300A5D121 /* YJ */ = {
 			isa = PBXGroup;
 			children = (
-				51AD7537265AAD3C008DFDF8 /* YJ.entitlements */,
 				7805BB2726580F8400A5D121 /* Assets.xcassets */,
 				7805BB2C26580F8400A5D121 /* Info.plist */,
 				7805BB2926580F8400A5D121 /* LaunchScreen.storyboard */,
