@@ -25,7 +25,7 @@
     
     [self initAudio];
     
-//    [self initNetWorkConfig];
+    [self initNetWorkConfig];
     
     [self initMMKV];
     

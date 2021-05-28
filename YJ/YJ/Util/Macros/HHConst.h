@@ -7,6 +7,8 @@ UIKIT_EXTERN NSString  * const kLogoutNotification;
 //登陆成功
 UIKIT_EXTERN NSString  * const kLoginSuccessNotification;
 
+UIKIT_EXTERN NSString  * const kNotLoginNotification;
+
 
 /*----------------------------------网络提示----------------------------------*/
 //网络断开的提示语

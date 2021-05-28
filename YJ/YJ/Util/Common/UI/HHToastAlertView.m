@@ -69,12 +69,13 @@ static NSInteger const kPadding = 24;
 
 + (instancetype)showTitle:(nullable NSString *)title
                   content:(nullable NSString *)content
+             buttonTitles:(nullable NSArray <NSString *> *)buttonTitles
        buttonClickedBlock:(nullable HandlerButtonClickBlock)buttonClickedBlock{
     
     return  [[HHToastAlertView alloc]initWithTitle:title
                                            content:content
                                   contentAlignment:NSTextAlignmentCenter
-                                      buttonTitles:@[(@"i.see")]
+                                      buttonTitles:buttonTitles
                                       buttonColors:nil
                                   contentMaxHeight:0
                                  clickableContents:nil

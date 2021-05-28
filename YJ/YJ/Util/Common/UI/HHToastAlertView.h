@@ -25,6 +25,7 @@ typedef void(^HandlerContentClickBlock)(NSInteger index);
 
 + (instancetype)showTitle:(nullable NSString *)title
                   content:(nullable NSString *)content
+             buttonTitles:(nullable NSArray <NSString *> *)buttonTitles
        buttonClickedBlock:(nullable HandlerButtonClickBlock)buttonClickedBlock;
 
 

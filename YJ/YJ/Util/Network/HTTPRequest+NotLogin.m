@@ -7,6 +7,7 @@
 //
 
 #import "HTTPRequest+NotLogin.h"
+#import "HHToastAlertView.h"
 //#import "BaseNavViewController.h"
 //#import "QFLoginViewController.h"
 //#import "QFRevisePwdViewController.h"
@@ -17,21 +18,27 @@
 
 // 用户未登录
 + (BOOL) singleLoginWithResult:(NSInteger)result msg:(NSString *)msg{
-    //避免下面的弹窗被MBProgressHUD盖住
-//    [MBProgressHUD LY_HideHUD];
-
-    if (result == resultCode_401) {
-        [self  showLoginTips:@"登录状态异常，请重新登录" resultCode:result];
+ 
+    if (result == 0 && [msg isEqualToString:@"token无效！"]) {
+        [[YJLoginManager sharedInstance]doLogout];
+        [HHToastAlertView showTitle:@"提示" content:@"您的账号登录已失效,请重新登录" buttonTitles:@[@"重新登录"] buttonClickedBlock:^(NSInteger index){
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotLoginNotification object:nil];
+        }];
         return  YES;
     }
-    else if(result == resultCode_501){
-        [self  showLoginTips:msg resultCode:result];
-        return YES;
-    }
-    else if(result == resultCode_1032){  //系统检测到您的登录地址发生了变更，请使用短信验证码登录
-        [self showLoginTips:msg resultCode:result];
-        return YES;
-    }
+    
+//    if (result == resultCode_401) {
+//        [self  showLoginTips:@"登录状态异常，请重新登录" resultCode:result];
+//        return  YES;
+//    }
+//    else if(result == resultCode_501){
+//        [self  showLoginTips:msg resultCode:result];
+//        return YES;
+//    }
+//    else if(result == resultCode_1032){  //系统检测到您的登录地址发生了变更，请使用短信验证码登录
+//        [self showLoginTips:msg resultCode:result];
+//        return YES;
+//    }
     return NO;
 }
 

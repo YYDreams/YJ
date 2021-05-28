@@ -372,10 +372,9 @@
     
     NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
     NSInteger statusCode = response.statusCode;
-    
-    if (statusCode == resultCode_1032) {  //您的登录地址发生了改变，请通过短信验证码登录'
-        
-        BOOL isSingle  =  [HTTPRequest singleLoginWithResult:statusCode msg:responseObject[@"msg"]];
+    BOOL succes =  [responseObject[@"success"] boolValue];
+    if (!succes) {  //您的登录地址发生了改变，请通过短信验证码登录'
+        BOOL isSingle  =  [HTTPRequest singleLoginWithResult:succes msg:responseObject[@"msg"]];
         if (isSingle){
             return;
         }

@@ -17,12 +17,13 @@
     if ([YJLoginManager sharedInstance].isLogin) {
         [self setTabBar];
     }else{
+        
         self.window.rootViewController =[[UINavigationController alloc]initWithRootViewController: [[LoginViewController alloc]init]];
     }
 }
 - (void)setTabBar{
-    
-    self.window.rootViewController = [[BaseTabBarViewController alloc]init];
+    self.tabBarViewController = [[BaseTabBarViewController alloc]init];
+    self.window.rootViewController = self.tabBarViewController;
 }
 
 

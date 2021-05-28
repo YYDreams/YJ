@@ -66,9 +66,11 @@ static NSString * const HomeCellID = @"HomeCellID";
 
             [HHHudManager showTipMessageInWindow:resposeObject[@"msg"]?:@"获取失败"];
         }
+        if(kArrayIsEmpty(data)){
+            self.currentPageStatus = PageStatusSucceed;
+        }
         
         
-        self.currentPageStatus = PageStatusSucceed;
        
     } failure:^(NSError *error) {
         [HHHudManager hideHUD];

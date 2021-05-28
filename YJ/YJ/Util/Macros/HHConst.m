@@ -18,6 +18,9 @@ NSString  * const kLogoutNotification = @"kLogoutNotification";
 //登陆成功
 NSString  * const kLoginSuccessNotification = @"kLoginSuccessNotification";
 
+NSString  * const kNotLoginNotification = @"kNotLoginNotification";
+
+
 
 /*----------------------------------网络提示----------------------------------*/
 NSString  * const kNoNetworkTips = @"当前网络不可用,请检查网络设置";

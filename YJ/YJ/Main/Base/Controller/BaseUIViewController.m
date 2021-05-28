@@ -26,7 +26,8 @@
     
     self.view.backgroundColor = kBgColor;
     
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showLoginVC) name:kNotLoginNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showLoginVC) name:kNotLoginNotification object:nil];
+    
 //    
     
 }
@@ -89,6 +90,10 @@
 
 //显示登录界面
 - (void)showLoginVC{
+    
+    LoginViewController*loginVc = [[LoginViewController  alloc]init];
+    loginVc.modalPresentationStyle = 0;
+    [self presentViewController:loginVc animated:YES completion:nil];
     
 
 }

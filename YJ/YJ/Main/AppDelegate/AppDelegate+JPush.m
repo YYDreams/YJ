@@ -85,10 +85,9 @@
 #pragma mark - SEL
 
 - (void)goToMssageViewControllerWith:(NSDictionary*)msgDic{
-    UIViewController *vc = nil;
     
     NSLog(@"msgDicmsgDicmsgDic%@,",msgDic);
-    [self pushToViewControllerWithVC:vc];
+    [self pushToViewControllerWithVC:nil];
 }
 
 //注册 APNs 成功并上报 DeviceToken
@@ -139,7 +138,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 // iOS 10 Support
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
   // Required
-  NSDictionary * userInfo = response.notification.request.content.userInfo;
+     NSDictionary * userInfo = response.notification.request.content.userInfo;
     UNNotificationRequest *request = response.notification.request; // 收到推送的请求
     UNNotificationContent *content = request.content; // 收到推送的消息内容
     NSNumber *badge = content.badge;  // 推送消息的角标
@@ -150,6 +149,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
   if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
     [JPUSHService handleRemoteNotification:userInfo];
+      [self pushToViewControllerWithVC:nil];
   }
   completionHandler();  // 系统要求执行这个方法
     NSLog(@"iOS10 前台收到本地通知:{\nbody:%@，\ntitle:%@,\nsubtitle:%@,\nbadge：%@，\nsound：%@，\nuserInfo：%@\n}",body,title,subtitle,badge,sound,userInfo);
@@ -178,8 +178,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 -(void)pushToViewControllerWithVC:(UIViewController *)vc {
     BaseTabBarViewController *tab = (BaseTabBarViewController *)self.window.rootViewController;
     tab.selectedIndex = 0;
-//    BaseNavViewController  *nvc = tab.selectedViewController;
-   
 }
 
 
