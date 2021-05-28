@@ -36,7 +36,7 @@
     [userdefault  setValue:baseUrl forKey:kBaseUrl];
     [userdefault synchronize];
 
-    NSLog(@"\\n\\n%@\\n\\n",msg);
+    NSLog(@"当前环境处于:%@ baseUrl:%@",msg,baseUrl);
     return msg;
     
 }

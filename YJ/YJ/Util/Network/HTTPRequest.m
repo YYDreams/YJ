@@ -86,7 +86,7 @@
 #pragma mark - host管理
 + (NSString *)InterfaceUrl:(NSString *)url{
   NSString *baseUrl =  [[NSUserDefaults standardUserDefaults]valueForKey:kBaseUrl];
-    NSString *urlstring = [NSString stringWithFormat:@"%@/%@",baseUrl,url];
+    NSString *urlstring = [NSString stringWithFormat:@"%@%@",baseUrl,url];
     return urlstring;
 }
 

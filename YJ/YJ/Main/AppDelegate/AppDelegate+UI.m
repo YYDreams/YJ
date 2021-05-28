@@ -22,8 +22,9 @@
     }
 }
 - (void)setTabBar{
-    self.tabBarViewController = [[BaseTabBarViewController alloc]init];
-    self.window.rootViewController = self.tabBarViewController;
+    
+    self.window.rootViewController = [[BaseTabBarViewController alloc]init];
+    
 }
 
 

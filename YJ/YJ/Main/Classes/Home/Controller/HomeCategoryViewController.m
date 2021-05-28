@@ -29,18 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupView];
-    self.navigationItem.title =  [YJLoginManager sharedInstance].model.mahjongHall.name;
-//    UIButton * logoutBtn= [[UIButton alloc]init];
-//        logoutBtn.backgroundColor = [UIColor redColor];
-//        [logoutBtn setTitle:@"注销" forState:UIControlStateNormal];
-//        [logoutBtn setBackgroundColor:[UIColor redColor]];
-//        logoutBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-//    logoutBtn.layer.masksToBounds = true;
-//    logoutBtn.layer.cornerRadius = 15;
-//    logoutBtn.width = 60;
-//        [logoutBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:logoutBtn];
-
+    self.navigationItem.title =  [YJLoginManager sharedInstance].model.mahjongHall.name?:@"首页";
 }
 
 - (void)viewDidAppear:(BOOL)animated
