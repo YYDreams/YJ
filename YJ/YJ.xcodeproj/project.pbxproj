@@ -1210,7 +1210,7 @@
 				7805BB4626580F8500A5D121 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		7805BB4726580F8500A5D121 /* Build configuration list for PBXNativeTarget "YJ" */ = {
 			isa = XCConfigurationList;
@@ -1219,7 +1219,7 @@
 				7805BB4926580F8500A5D121 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		7805BB4A26580F8500A5D121 /* Build configuration list for PBXNativeTarget "YJTests" */ = {
 			isa = XCConfigurationList;
@@ -1228,7 +1228,7 @@
 				7805BB4C26580F8500A5D121 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		7805BB4D26580F8500A5D121 /* Build configuration list for PBXNativeTarget "YJUITests" */ = {
 			isa = XCConfigurationList;
@@ -1237,7 +1237,7 @@
 				7805BB4F26580F8500A5D121 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
