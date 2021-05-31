@@ -10,8 +10,15 @@
 #import "UserCenterHeaderView.h"
 #import "HHToastAlertView.h"
 #import "LoginViewController.h"
-@interface UserCenterViewController ()
+#import "HHActionSheetController.h"
+#import <AVFoundation/AVFoundation.h>
+#import <Photos/Photos.h>
+#import <TZImageManager.h>
+#import "UIImagePickerController+blockCallBack.h"
+@interface UserCenterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIActionSheetDelegate>
 
+
+@property(nonatomic,assign)BOOL isUploadImg;  //标记是否上传了图片
 
 @property(nonatomic,strong)NSArray *dataArr;
 
@@ -102,6 +109,8 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UserCenterHeaderView * headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:UserCenterHeaderID];
     headerView.backgroundColor = [UIColor clearColor];
+    headerView.userInteractionEnabled = true;
+    [headerView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(actionSheetphoto)]];
     headerView.titleLabel.text = [YJLoginManager sharedInstance].model.name;
     headerView.subTitle.text = [YJLoginManager sharedInstance].model.mobile;
     return headerView;
@@ -129,6 +138,187 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
     return  110;
 }
 
+- (void)actionSheetphoto{
+    UIActionSheet *actionSheet =[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消"  destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"选择照片", nil];
+    
+    [actionSheet showInView:self.view];
+}
+
+#pragma mark - <UIActionSheetDelegate>
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if(buttonIndex == 0){
+        
+        [self chooseImaage:UIImagePickerControllerSourceTypeCamera]; //拍照
+        
+    }else if(buttonIndex == 1){
+        
+        [self chooseImaage:UIImagePickerControllerSourceTypePhotoLibrary]; //选择照片
+        
+    }
+}
+
+
+
+#pragma mark - Custom Method
+
+-(void)chooseImaage:(UIImagePickerControllerSourceType)soureType{
+    
+    UIImagePickerController *pickerVc =[[UIImagePickerController alloc]init];
+    pickerVc.delegate = self;
+    pickerVc.sourceType = soureType;
+    pickerVc.allowsEditing = YES;
+    _isUploadImg = YES;
+    [self presentViewController:pickerVc animated:YES completion:nil];
+}
+
+
+
+#pragma mark - <UIImagePickerControllerDelegate>
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    UIImage *image =[info objectForKey:UIImagePickerControllerOriginalImage];
+ 
+    
+    [self uploadImage:image];
+    
+}
+
+-(void)uploadImage:(UIImage *)image{
+    
+    //1. 存放图片的服务器地址，这里我用的宏定义
+    
+
+    [HTTPRequest  UPLOAD:@"/jeeplus/a/web/yjMahjongHallWaiters/uploadAvatar" image:image parameter:@{@"base64Data":image} progress:nil  success:^(id resposeObject) {
+        if (Success) {
+
+            NSString * headImg = resposeObject[@"body"][@"data"];
+
+            NSLog(@"headImg====%@",headImg);
+//            NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//
+//            params[@"id"] = LH.userId;
+//            params[@"headImg"] = headImg;
+//            //修改头像
+//            [HTTPRequest POST:kUpdateUserInfoUrl parameter:params success:^(id resposeObject) {
+//                if (Success) {
+//
+//                    _icon.image = image;
+//                    [[NSUserDefaults standardUserDefaults] setObject:headImg forKey:kHeaderImage];
+//                    [[NSUserDefaults standardUserDefaults]synchronize];
+//
+//                    if (_handerInfoHeaderIconCallBack) {
+//                        _handerInfoHeaderIconCallBack(headImg);
+//                    }
+//                }
+//
+//
+//            } failure:^(NSError *error) {
+//
+//
+//            }];
+        }
+
+    } failure:^(NSError *error) {
+
+
+    }];
+    
+    
+    
+}
+
+
+
+//- (void)actionSheetphoto {
+//    WeakSelf;
+//    HHActionSheetController * alert = [HHActionSheetController new];
+//    HHActionSheetAction * action0 = [HHActionSheetAction actionWithTitle:@"拍照" handler:^(HHActionSheetAction * _Nonnull action) {
+//
+//        [weakSelf takePhotoWithTakePhoto:YES];
+//    }];
+//    [alert addAction:action0];
+//
+//    HHActionSheetAction * action1 = [HHActionSheetAction actionWithTitle:@"我的相册" handler:^(HHActionSheetAction * _Nonnull action) {
+//
+//        [weakSelf takePhotoWithTakePhoto:NO];
+//    }];
+//    [alert addAction:action1];
+//
+//    [self presentViewController:alert animated:YES completion:nil];
+//
+//}
+//
+//- (void)takePhotoWithTakePhoto:(BOOL)isTakePhoto {
+//    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+//    if (authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied) {
+//        // 无相机权限 做一个友好的提示
+//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无法使用相机" message:@"请在iPhone的“隐私-设置”选项中，允许app访问您的相册" preferredStyle:UIAlertControllerStyleAlert];
+//        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+//        [alertController addAction:[UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+//        }]];
+//        [self presentViewController:alertController animated:YES completion:nil];
+//    } else if (authStatus == AVAuthorizationStatusNotDetermined) {
+//        // fix issue 466, 防止用户首次拍照拒绝授权时相机页黑屏
+//        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+//            if (granted) {
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [self takePhotoWithTakePhoto:isTakePhoto];
+//                });
+//            }
+//        }];
+//        // 拍照之前还需要检查相册权限
+//    } else if ([PHPhotoLibrary authorizationStatus] == 2) { // 已被拒绝，没有相册权限，将无法保存拍的照片
+//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无法访问相册" message:@"请在iPhone的“隐私-设置”选项中，允许app访问您的相册" preferredStyle:UIAlertControllerStyleAlert];
+//        [alertController addAction:[UIAlertAction actionWithTitle:@"取消"  style:UIAlertActionStyleCancel handler:nil]];
+//        [alertController addAction:[UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+//        }]];
+//        [self presentViewController:alertController animated:YES completion:nil];
+//    } else if ([PHPhotoLibrary authorizationStatus] == 0) { // 未请求过相册权限
+//        [[TZImageManager manager] requestAuthorizationWithCompletion:^{
+//            [self takePhotoWithTakePhoto:isTakePhoto];
+//        }];
+//    } else {
+//        [self seletedPhotoWithTakePhoto:isTakePhoto];
+//    }
+//}
+//
+//
+//- (void)seletedPhotoWithTakePhoto:(BOOL)isTakePhoto{
+//    WeakSelf;
+//    UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
+//    imagePicker.allowsEditing = YES;
+//    imagePicker.sourceType = isTakePhoto ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
+//    [imagePicker setMediaInfoCallBack:^bool(NSDictionary<UIImagePickerControllerInfoKey,id> * _Nullable info, BOOL didCaceled) {
+//
+//        UIImage *image = info[UIImagePickerControllerEditedImage];
+//        NSLog(@"imageimage:>%@",image);
+//
+//
+////        SCCOSUploaderTaskConfig *config = [[SCCOSUploaderTaskConfig alloc] init];
+////        config.image = image;
+////        self.cosUperApi = [[SCCOSUploader alloc] initWithConfig:config];
+////        @weakify(self);
+////        if (image) {
+////            [self.cosUperApi doStartWithSuccess:^(SCCOSUploaderResult * _Nullable imageUrl) {
+////                @strongify(self);
+////                if (SC_IS_VALID_STRING(imageUrl.imageUrl)) {
+////                    self.imageUrl = imageUrl.imageUrl;
+////                }
+////                [self reqDataWithKey:imageUrl.imageCosKey];
+////            }];
+////        }
+//
+//        return YES;
+//    }];
+//    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self presentViewController:imagePicker animated:YES completion:nil];
+//}
 - (void)logout{
     
     [HHToastAlertView showTitle:@"提示" content:@"确定要退出登录吗?" contentAlignment:1 buttonTitles:@[@"取消",@"确定"] buttonClickedBlock:^(NSInteger index) {

@@ -27,6 +27,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>我们需要访问您的相机，以方便用户上传图片</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>我们需要您的同意才能访问照片库，以方便用户保存照片</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>我们需要您的同意才能访问照片库，以方便用户上传本地图片</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

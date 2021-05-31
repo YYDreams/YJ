@@ -155,6 +155,7 @@ static NSString * const HomeCellID = @"HomeCellID";
             
             [[YJPlayMager sharedInstance]pause];
         }
+        
         [weakSelf playWithUrl:model.voicePath];
       
     };

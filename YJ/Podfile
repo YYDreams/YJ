@@ -20,6 +20,7 @@ pod 'JCore'
 pod 'JPush'
 pod 'MMKV', '= 1.1.2'
 pod "JSONModel", '~> 1.7.0'
+pod 'TZImagePickerController', '= 3.4.2' #iOS8 and later
 pod 'MNFloatBtn'
 
   # Pods for YJ

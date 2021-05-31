@@ -47,7 +47,7 @@
                                 <constraint firstAttribute="width" constant="18" id="xwl-ij-jIY"/>
                             </constraints>
                         </imageView>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Cy-xr-Ahc">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Cy-xr-Ahc">
                             <rect key="frame" x="30" y="-3" width="330" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="yND-q5-JYK"/>
@@ -97,7 +97,7 @@
                                 <constraint firstAttribute="height" constant="18" id="hZQ-Jo-AAX"/>
                             </constraints>
                         </imageView>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oKr-Of-8KC">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oKr-Of-8KC">
                             <rect key="frame" x="30" y="-3" width="237" height="60"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="60" id="M3Y-Jy-RCq"/>

@@ -254,7 +254,7 @@
     return requestModel;
 }
 
-+(void)UPLOAD:(NSString*)url image:(UIImage *)image parameter:(id)parameter  progress:(void(^)(CGFloat progress))progres        success:(void (^)(id responseOBj))success
++(void)UPLOAD:(NSString*)url image:(UIImage *)image parameter:(id)parameter  progress:(void(^)(CGFloat progress))progres        success:(void (^)(id resposeObject))success
       failure:(void (^)(NSError *error))failure{
     
     

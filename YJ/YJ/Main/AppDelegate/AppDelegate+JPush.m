@@ -20,6 +20,7 @@
 #import "BaseTabBarViewController.h"
 
 #import "BaseNavViewController.h"
+#import "HHToastAlertView.h"
 @interface AppDelegate ()<JPUSHRegisterDelegate>
 
 @end
@@ -73,7 +74,36 @@
     }
     //设置别名
     [self setupAlias];
+    
+    //检测通知授权情况。可选项，不一定要放在此处，可以运行一定时间后再调用
+    [self performSelector:@selector(checkNotificationAuthorization) withObject:nil afterDelay:10];
 }
+#pragma mark - 通知权限引导
+
+// 检测通知权限授权情况
+- (void)checkNotificationAuthorization {
+  [JPUSHService requestNotificationAuthorization:^(JPAuthorizationStatus status) {
+    // run in main thread, you can custom ui
+    NSLog(@"notification authorization status:%lu", status);
+    [self alertNotificationAuthorization:status];
+  }];
+}
+
+// 通知未授权时提示，是否进入系统设置允许通知，仅供参考
+- (void)alertNotificationAuthorization:(JPAuthorizationStatus)status {
+  if (status < JPAuthorizationStatusAuthorized) {
+      [HHToastAlertView showTitle:@"允许通知" content:@"是否进入设置允许通知？"  contentAlignment:1 buttonTitles:@[@"取消",@"确定"] buttonClickedBlock:^(NSInteger index) {
+          if (index == 1) {
+              if(@available(iOS 8.0, *)) {
+                [JPUSHService openSettingsForNotification:^(BOOL success) {
+                  NSLog(@"open settings %@", success?@"success":@"failed");
+                }];
+              }
+          }
+      }];
+  }
+}
+
 - (void)setupAlias{
     if ([[YJLoginManager sharedInstance] isLogin]) {
         [JPUSHService setAlias:HHString([YJLoginManager sharedInstance].model.mobile, @"匿名") completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {

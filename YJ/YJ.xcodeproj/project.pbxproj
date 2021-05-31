@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		075C45B442ACEBD21B45F35B /* Pods_YJTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B89D6251BF7DABC027F93FC /* Pods_YJTests.framework */; };
+		51288357266503BE0010C940 /* HHActionSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51288354266503BE0010C940 /* HHActionSheetView.m */; };
+		51288358266503BE0010C940 /* HHActionSheetAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 51288355266503BE0010C940 /* HHActionSheetAction.m */; };
+		51288359266503BE0010C940 /* HHActionSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51288356266503BE0010C940 /* HHActionSheetController.m */; };
+		5128835C26650A050010C940 /* UIImagePickerController+blockCallBack.m in Sources */ = {isa = PBXBuildFile; fileRef = 5128835B26650A050010C940 /* UIImagePickerController+blockCallBack.m */; };
 		51AD74FC265A0928008DFDF8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD74FA265A0928008DFDF8 /* LoginViewController.m */; };
 		51AD74FD265A0928008DFDF8 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51AD74FB265A0928008DFDF8 /* LoginViewController.xib */; };
 		51AD7500265A2104008DFDF8 /* YJJSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD74FF265A2104008DFDF8 /* YJJSONModel.m */; };
@@ -89,6 +93,14 @@
 		1C4FDA5095297AF6529B1AF0 /* Pods_YJ_YJUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YJ_YJUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E1790B1C974E326113C7CC0 /* Pods-YJ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YJ.release.xcconfig"; path = "Target Support Files/Pods-YJ/Pods-YJ.release.xcconfig"; sourceTree = "<group>"; };
 		4C34FE3E98CD8D003D2649E4 /* Pods_YJ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YJ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		51288351266503BE0010C940 /* HHActionSheetAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHActionSheetAction.h; sourceTree = "<group>"; };
+		51288352266503BE0010C940 /* HHActionSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHActionSheetController.h; sourceTree = "<group>"; };
+		51288353266503BE0010C940 /* HHActionSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHActionSheetView.h; sourceTree = "<group>"; };
+		51288354266503BE0010C940 /* HHActionSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHActionSheetView.m; sourceTree = "<group>"; };
+		51288355266503BE0010C940 /* HHActionSheetAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHActionSheetAction.m; sourceTree = "<group>"; };
+		51288356266503BE0010C940 /* HHActionSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHActionSheetController.m; sourceTree = "<group>"; };
+		5128835A26650A050010C940 /* UIImagePickerController+blockCallBack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+blockCallBack.h"; sourceTree = "<group>"; };
+		5128835B26650A050010C940 /* UIImagePickerController+blockCallBack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+blockCallBack.m"; sourceTree = "<group>"; };
 		51AD74F9265A0928008DFDF8 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		51AD74FA265A0928008DFDF8 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		51AD74FB265A0928008DFDF8 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -258,6 +270,14 @@
 		51AD7508265A695A008DFDF8 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5128835A26650A050010C940 /* UIImagePickerController+blockCallBack.h */,
+				5128835B26650A050010C940 /* UIImagePickerController+blockCallBack.m */,
+				51288351266503BE0010C940 /* HHActionSheetAction.h */,
+				51288355266503BE0010C940 /* HHActionSheetAction.m */,
+				51288352266503BE0010C940 /* HHActionSheetController.h */,
+				51288356266503BE0010C940 /* HHActionSheetController.m */,
+				51288353266503BE0010C940 /* HHActionSheetView.h */,
+				51288354266503BE0010C940 /* HHActionSheetView.m */,
 				51AD750A265A6966008DFDF8 /* HHToastAlertView.h */,
 				51AD7509265A6966008DFDF8 /* HHToastAlertView.m */,
 			);
@@ -889,6 +909,7 @@
 				51B5EBE326596FD500F86225 /* HHConstUrl.m in Sources */,
 				51AD751E265A9C01008DFDF8 /* SCDeveloperHFView.m in Sources */,
 				51B5EC3E2659F6D300F86225 /* UserCenterHeaderView.m in Sources */,
+				51288358266503BE0010C940 /* HHActionSheetAction.m in Sources */,
 				51B5EC162659E71800F86225 /* BaseNavViewController.m in Sources */,
 				51B5EC322659EC7D00F86225 /* UserCenterCell.m in Sources */,
 				51AD750B265A6966008DFDF8 /* HHToastAlertView.m in Sources */,
@@ -896,6 +917,7 @@
 				51AD7503265A4351008DFDF8 /* HomeModel.m in Sources */,
 				51AD7510265A9064008DFDF8 /* AppDelegate+UI.m in Sources */,
 				7805BC442658A5A800A5D121 /* HomeCell.m in Sources */,
+				5128835C26650A050010C940 /* UIImagePickerController+blockCallBack.m in Sources */,
 				51B5EC3B2659F10200F86225 /* MineModel.m in Sources */,
 				7805BBF8265895A600A5D121 /* HTTPRequest.m in Sources */,
 				51B5EC4C2659FCB600F86225 /* HHKeyValueStorage.m in Sources */,
@@ -907,6 +929,7 @@
 				7805BBF7265895A600A5D121 /* HTTPRequest+NotLogin.m in Sources */,
 				7805BB2E26580F8400A5D121 /* main.m in Sources */,
 				51B5EC1A2659E71800F86225 /* BaseTableViewController+PageStatus.m in Sources */,
+				51288357266503BE0010C940 /* HHActionSheetView.m in Sources */,
 				51AD7500265A2104008DFDF8 /* YJJSONModel.m in Sources */,
 				51AD7531265AA3F0008DFDF8 /* HHDeveloperViewController.m in Sources */,
 				51AD7514265A9175008DFDF8 /* HHNetworkConfig.m in Sources */,
@@ -916,6 +939,7 @@
 				51B5EC182659E71800F86225 /* BaseUIViewController.m in Sources */,
 				51B5EC1C2659E71800F86225 /* BaseModel.m in Sources */,
 				7805BBBE26581DDD00A5D121 /* UIView+Category.m in Sources */,
+				51288359266503BE0010C940 /* HHActionSheetController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

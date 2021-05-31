@@ -99,6 +99,8 @@
              [YJLoginManager sharedInstance].model = model;
             [[YJLoginManager sharedInstance] saveUserModel];
             
+            [UIApplication sharedApplication].keyWindow.rootViewController = [[BaseTabBarViewController alloc]init];
+
         }else{
             [HHHudManager showTipMessageInWindow:resposeObject[@"msg"]?:@""];
             
@@ -194,7 +196,6 @@
             [YJLoginManager sharedInstance].token =  resposeObject[@"body"][@"data"][@"token"];
             [YJLoginManager sharedInstance].hallIds =  resposeObject[@"body"][@"data"][@"hallIds"];
             [self getUserInfoData];
-            [UIApplication sharedApplication].keyWindow.rootViewController = [[BaseTabBarViewController alloc]init];
             
         }else{
 
