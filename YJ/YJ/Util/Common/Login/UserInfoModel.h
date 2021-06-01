@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , strong) MahjongHall              * mahjongHall;
 @property (nonatomic , copy) NSString              * name;
 @property (nonatomic , copy) NSString              * mobile;
+@property (nonatomic , copy) NSString              * avatar;
 @property (nonatomic , assign) NSInteger              receiveCall;
 @property (nonatomic , assign) NSInteger              workState;
 

@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UserCenterHeaderView : UITableViewHeaderFooterView
 
+@property (weak, nonatomic) IBOutlet UIImageView *headImgView;
+
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *subTitle;

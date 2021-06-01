@@ -145,6 +145,8 @@
         manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     }else{
         manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+
 
     }
 
@@ -257,38 +259,27 @@
 +(void)UPLOAD:(NSString*)url image:(UIImage *)image parameter:(id)parameter  progress:(void(^)(CGFloat progress))progres        success:(void (^)(id resposeObject))success
       failure:(void (^)(NSError *error))failure{
     
-    
     NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     
     NSLog(@"%@-----%zd",imageData, imageData.length);
     if (imageData.length>1024*1024) {
         
         imageData = UIImageJPEGRepresentation(image, 1024.0f *1024.0f/(CGFloat)imageData.length);
+        
     }
-    
-    
-    //    AFHTTPSessionManager *manager = [self requestManager];
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
-    //  [manager.requestSerializer setValue:LH.token forHTTPHeaderField:@"token"];
-    
-    
-    //申明返回的结果是json类型
-    //        manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    //申明请求的数据是json类型
-    //        manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.requestSerializer.HTTPShouldHandleCookies = YES;
-    
-    
+
     //解决不接受类型为"text/html"
     //如果报接受类型不一致请替换一致text/html或别的
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain",@"image/jpeg",@"image/png", nil];
     
-    
-    
+    // 如果已有Cookie, 则把你的cookie符上
+    NSString *cookie = [YJLoginManager sharedInstance].token;
+    if (cookie != nil) {
+        [manager.requestSerializer setValue:cookie forHTTPHeaderField:@"Authorization"];
+    }
     
     NSMutableURLRequest *request =[manager.requestSerializer multipartFormRequestWithMethod:@"POST" URLString:[self InterfaceUrl:url] parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
@@ -307,6 +298,7 @@
             
         });
     } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+        
         
         id jsonDic =[NSJSONSerialization JSONObjectWithData:responseObject options:0 error:nil];
         
@@ -346,7 +338,12 @@
     //配置公共参数
     params = [AFHTTPSessionManager configBaseParmars:params];
     
-
+    
+    // 如果已有Cookie, 则把你的cookie符上
+    NSString *cookie = [YJLoginManager sharedInstance].token;
+    if (cookie != nil) {
+        [manager.requestSerializer setValue:cookie forHTTPHeaderField:@"Authorization"];
+    }
     NSURLSessionDataTask *task = [manager POST:url parameters:params   headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         for (NSString *key in uploadParam.allKeys) {
              [formData appendPartWithFileData:uploadParam[key] name:key fileName:[NSString stringWithFormat:@"%@.jpg",key] mimeType:@"image/jpg"];

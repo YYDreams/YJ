@@ -20,3 +20,7 @@ UIKIT_EXTERN NSString  * const kVoicesListUrl;
 //服务生--完成呼叫请求
 UIKIT_EXTERN NSString  * const kCompleteCallUrl;
 
+//服务生--上传并修改头像
+UIKIT_EXTERN NSString  * const kUploadAvatarUrl;
+
+

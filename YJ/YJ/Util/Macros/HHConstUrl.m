@@ -18,6 +18,8 @@ NSString  * const kVoicesListUrl = @"/jeeplus/a/web/yjMahjongHallWaiters/voicesL
 //服务生--完成呼叫请求
 NSString  * const kCompleteCallUrl = @"/jeeplus/a/web/yjMahjongHallWaiters/completeCall";
 
+//服务生--上传并修改头像
+NSString  * const kUploadAvatarUrl = @"/jeeplus/a/web/yjMahjongHallWaiters/uploadAvatar";
 
 
 
