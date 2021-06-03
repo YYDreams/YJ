@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic ,copy)void(^handlerDoneCallBlock)(void);
 
 //播放音频回调
-@property(nonatomic ,copy)void(^handlerPlayBlock)(void);
+@property(nonatomic ,copy)void(^handlerPlayBlock)();
 
 @end
 

@@ -91,6 +91,11 @@
     }];
     
 }
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.codeTextField resignFirstResponder];
+    [self.phoneTextField resignFirstResponder];
+    
+}
 - (void)getUserInfoData{
     [HTTPRequest GET:kGetAndroidMahjongHallWaiterInfoUrl parameter:nil success:^(id resposeObject) {
        

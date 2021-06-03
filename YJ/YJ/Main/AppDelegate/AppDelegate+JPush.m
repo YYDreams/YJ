@@ -76,7 +76,7 @@
     [self setupAlias];
     
     //检测通知授权情况。可选项，不一定要放在此处，可以运行一定时间后再调用
-    [self performSelector:@selector(checkNotificationAuthorization) withObject:nil afterDelay:2];
+//    [self performSelector:@selector(checkNotificationAuthorization) withObject:nil afterDelay:2];
 }
 #pragma mark - 通知权限引导
 

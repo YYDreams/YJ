@@ -15,22 +15,23 @@
 #import <Photos/Photos.h>
 #import <TZImageManager.h>
 #import "UIImagePickerController+blockCallBack.h"
-@interface UserCenterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIActionSheetDelegate>
+#import <UserNotifications/UserNotifications.h>
+@interface UserCenterViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate,UIActionSheetDelegate,UNUserNotificationCenterDelegate>
 
-
-@property(nonatomic,assign)BOOL isUploadImg;  //标记是否上传了图片
 
 @property(nonatomic,strong)NSArray *dataArr;
 
 @property(nonatomic,assign)NSInteger receiveCall; //是否接收语音推送 0-不接收 1-接收
 
-
 @property(nonatomic,assign)NSInteger workState;  //工作状态 0-休息中 1-工作中
 
 @property(nonatomic,strong)UserCenterHeaderView * headerView;
 
+@property(nonatomic,assign)BOOL isOpenSystemNotice;
 
 
+
+//只关闭语音推送，但还是上班的状态，消息列表是可以收到消息的
 @end
 static NSString * const UserCenterCellID = @"UserCenterCellID";
 static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
@@ -40,10 +41,84 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"个人中心";
+//
+    NSLog(@"个人中心个人中心:%d,",[self getNoticeSetting]);
+//    self.isOpenSystemNotice = [self getNoticeSetting];
+    
+//    UIApplication.didBecomeActiveNotification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:UIApplicationDidBecomeActiveNotification object:nil];
     [self getUserInfo];
     [self setupInit];
 }
+- (void)reloadData{
+    
+    NSLog(@"reloadDatareloadDatareloadDatareloadData");
+// _isOpenSystemNotice = [self getNoticeSetting];
+    [self.tableView reloadData];
+}
 
+
+
+//检查通知状态
+- (void)checkNotifiState{
+    
+    if (@available(iOS 10.0, *)) {
+        [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+            
+            switch (settings.authorizationStatus) {
+                case UNAuthorizationStatusDenied:
+                case UNAuthorizationStatusNotDetermined:
+                    
+                default:
+                    break;
+            }
+        }];
+    }
+//    typedef NS_ENUM(NSInteger, UNAuthorizationStatus) {
+//        // The user has not yet made a choice regarding whether the application may post user notifications.
+//        UNAuthorizationStatusNotDetermined = 0,
+//
+//        // The application is not authorized to post user notifications.
+//        UNAuthorizationStatusDenied,
+//
+//        // The application is authorized to post user notifications.
+//        UNAuthorizationStatusAuthorized,
+//
+//        // The application is authorized to post non-interruptive user notifications.
+//        UNAuthorizationStatusProvisional __API_AVAILABLE(macos(10.14), ios(12.0), watchos(5.0), tvos(12.0)),
+//
+//        // The application is temporarily authorized to post notifications. Only available to app clips.
+//        UNAuthorizationStatusEphemeral __API_AVAILABLE(ios(14.0)) __API_UNAVAILABLE(macos, watchos, tvos)
+//    }
+    
+//    if #available(iOS 10.0, *) {
+//        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+//            switch settings.authorizationStatus {
+//            case .denied, .notDetermined:
+//                self.isOpenSystemNotice = false
+//            default:
+//                self.isOpenSystemNotice = true
+//            }
+//            isOn?()
+//        }
+//    } else {}
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSLog(@"个人中心viewWillAppear中心:%d,",[self getNoticeSetting]);
+//
+    //iOS 10 later
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    
+    
+    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+        
+        NSLog(@"settingssettingssettings:%@",settings);
+    }];
+    
+    
+}
 - (void)getUserInfo{
     [HTTPRequest GET:kGetAndroidMahjongHallWaiterInfoUrl parameter:nil success:^(id resposeObject) {
        
@@ -175,7 +250,6 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
     pickerVc.delegate = self;
     pickerVc.sourceType = soureType;
     pickerVc.allowsEditing = YES;
-    _isUploadImg = YES;
     [self presentViewController:pickerVc animated:YES completion:nil];
 }
 
@@ -216,13 +290,17 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
         [HHHudManager showErrorMessage:@"上传失败"];
     }];
 
-    
+
     
     
 }
 - (BOOL)getNoticeSetting{
-    UIUserNotificationSettings *setting = UIApplication.sharedApplication.currentUserNotificationSettings;
+
     
+    UIUserNotificationSettings *setting = UIApplication.sharedApplication.currentUserNotificationSettings;
+ 
+    setting.types != UIUserNotificationTypeNone;
+
 //    setting =
 //    UIApplication.shared.currentUserNotificationSettings
     return  YES;
@@ -297,8 +375,10 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
 
         UIImage *image = info[UIImagePickerControllerEditedImage];
         NSLog(@"imageimage:>%@",image);
-        [self uploadImage:image];
-
+        
+        if (!kObjectIsEmpty(image)) {
+            [self uploadImage:image];
+        }
         return YES;
     }];
     imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -342,4 +422,8 @@ static NSString * const UserCenterHeaderID = @"UserCenterHeaderID";
     return _dataArr;
 }
 
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    
+}
 @end

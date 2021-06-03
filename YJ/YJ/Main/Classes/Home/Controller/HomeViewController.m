@@ -22,6 +22,9 @@ static NSString * const HomeCellID = @"HomeCellID";
 
 @property (nonatomic, copy) NSString *currentPlayUrl;
 
+@property (nonatomic, strong) NSTimer * timer;
+
+@property (nonatomic, assign) NSInteger currentDuration;
 
 
 @end
@@ -143,25 +146,70 @@ static NSString * const HomeCellID = @"HomeCellID";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:HomeCellID forIndexPath:indexPath];
+   HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:HomeCellID forIndexPath:indexPath];
    HomeModel *model  = [self.dataArr safeObjectAtIndex:indexPath.row];
+
+    
     cell.model = model;
+    
     WeakSelf;
     cell.handlerDoneCallBlock = ^{
         [weakSelf loadDataCompleteCallWithID:model.ID];
     };
-    cell.handlerPlayBlock = ^{
-        if (self.currentPlayUrl != model.voicePath) {
-            
-            [[YJPlayMager sharedInstance]pause];
-        }
-        
+    
+    cell.handlerPlayBlock = ^() {
+        weakSelf.currentDuration = model.duration;
         [weakSelf playWithUrl:model.voicePath];
+
+//        if (self.currentPlayUrl != model.voicePath) {
+            
+//            [[YJPlayMager sharedInstance]pause];
+            
+            if (model.duration > 0 ) {
+                NSTimer *timer  =  [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(numberCutDown:) userInfo:@(indexPath.row) repeats:YES];
+                [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+                
+            }
+       
+//        }
+        
       
     };
     return  cell;
 }
 
+-(void)numberCutDown:(NSTimer *)timer{
+    
+    NSLog(@"seurinfo:%@",timer.userInfo);
+    
+    //取出对应倒计时
+    NSString * indexInteger = timer.userInfo;
+     NSInteger index = [indexInteger integerValue];
+    
+    HomeModel *model = [self.dataArr safeObjectAtIndex:index];
+
+     //修改模型时间
+     model.duration --;
+     //刷新界面
+     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+     [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+     if (model.duration == 0)
+     {
+         model.duration = self.currentDuration;
+         NSLog(@"第%ld行的",model.duration);
+         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+         NSLog(@"第%ld行的定时器销毁了",index);
+         [timer invalidate];
+         timer = nil;
+  
+         return;
+     }else{
+         
+     }
+    
+    
+}
 - (void)playWithUrl:(NSString *)url{
     self.currentPlayUrl = url;
     
@@ -188,6 +236,18 @@ static NSString * const HomeCellID = @"HomeCellID";
         
     }];
     
+}
+
+- (void)timerActionWithCell:(NSIndexPath *)index{
+    
+    
+    
+}
+
+- (void)dealloc{
+    [self.timer invalidate];
+    self.timer = nil;
+    NSLog(@"************ dealloc ***************");
 }
 
 - (NSMutableArray *)dataArr{

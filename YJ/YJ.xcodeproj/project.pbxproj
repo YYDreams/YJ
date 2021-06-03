@@ -51,7 +51,6 @@
 		51B5EC4B2659FCB600F86225 /* HHSharedStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B5EC452659FCB600F86225 /* HHSharedStorage.m */; };
 		51B5EC4C2659FCB600F86225 /* HHKeyValueStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B5EC462659FCB600F86225 /* HHKeyValueStorage.m */; };
 		51B5EC4D2659FCB600F86225 /* HHAppStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B5EC472659FCB600F86225 /* HHAppStorage.m */; };
-		775E511ADDD753C430ACD9C5 /* Pods_YJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C34FE3E98CD8D003D2649E4 /* Pods_YJ.framework */; };
 		7805BB1D26580F8300A5D121 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7805BB1C26580F8300A5D121 /* AppDelegate.m */; };
 		7805BB2826580F8400A5D121 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7805BB2726580F8400A5D121 /* Assets.xcassets */; };
 		7805BB2B26580F8400A5D121 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7805BB2926580F8400A5D121 /* LaunchScreen.storyboard */; };
@@ -222,7 +221,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				775E511ADDD753C430ACD9C5 /* Pods_YJ.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1107,6 +1105,7 @@
 				CODE_SIGN_ENTITLEMENTS = YJ/YJ.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = P876T3DAQ6;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/YJ/PrefixHeader.pch";
 				INFOPLIST_FILE = YJ/Info.plist;
@@ -1130,6 +1129,7 @@
 				CODE_SIGN_ENTITLEMENTS = YJ/YJ.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = P876T3DAQ6;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/YJ/PrefixHeader.pch";
 				INFOPLIST_FILE = YJ/Info.plist;

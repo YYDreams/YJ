@@ -31,7 +31,7 @@
     
 //    [self initFloatBtn];
     
-//    [self initJPushWithLanchOption:launchOptions];
+    [self initJPushWithLanchOption:launchOptions];
     
     
     [self.window makeKeyAndVisible];

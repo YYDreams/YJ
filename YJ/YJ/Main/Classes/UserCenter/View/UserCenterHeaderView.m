@@ -9,4 +9,10 @@
 
 @implementation UserCenterHeaderView
 
+- (void)awakeFromNib{
+    [super awakeFromNib];
+    self.headImgView.layer.masksToBounds = true;
+    self.headImgView.layer.cornerRadius = 45;
+}
+
 @end
