@@ -102,6 +102,8 @@
     HomeViewController * list = [HomeViewController new];
     if (index == 0) {
         list.type = 1;
+    }else if(index == 1){
+        list.type = 3;
     }else{
         list.type = 2;
     }
@@ -130,6 +132,7 @@
         _categoryView.titleColorGradientEnabled = YES;
         _categoryView.averageCellSpacingEnabled = true;
         _categoryView.titles = @[@"待处理呼叫",
+                                 @"处理中",
                                  @"已完成"];
 //        _categoryView.contentEdgeInsetLeft = 24.f;
 //        _categoryView.contentEdgeInsetRight = 24.f;

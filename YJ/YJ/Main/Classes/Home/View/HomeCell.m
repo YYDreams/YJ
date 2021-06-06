@@ -28,8 +28,12 @@
     self.bottomBtn.layer.masksToBounds = true;
     self.bottomBtn.layer.borderWidth = 1;
     self.bottomBtn.layer.borderColor = [UIColor colorWithHex:0x5B9AF7].CGColor;
-    
-    
+    NSArray *images= [NSArray arrayWithObjects:[UIImage imageNamed:@"icon_audio"],[UIImage imageNamed:@"icon_audio1"], nil];
+      //imageView的动画图片是数组images
+    _imgView.animationImages = images;
+    _imgView.animationDuration = 0.5;
+    _imgView.animationRepeatCount = 0;
+    _imgView.contentMode = UIViewContentModeScaleAspectFit;
 }
 
 
@@ -38,6 +42,7 @@
     if (self.handlerPlayBlock) {
         self.handlerPlayBlock();
     }
+    
 }
 
 - (void)setModel:(HomeModel *)model{
@@ -54,13 +59,18 @@
     NSString *strTime = [NSString stringWithFormat:@"%02ld:%02d:%02d",hour,minutes,second];
     self.timeLabel.text = strTime;
     
-    //1-待处理 2-已处理
+    //1-待处理 2-已处理 3-处理中
     if (model.state == 1) {
         self.bottomWidthConst.constant = 80;
         [self.bottomBtn setTitle:@"完成呼叫" forState:UIControlStateNormal];
         self.bottomBtn.layer.borderColor = [UIColor redColor].CGColor;
         [self.bottomBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         
+    }else if (model.state == 3){
+        self.bottomWidthConst.constant = 80;
+        [self.bottomBtn setTitle:@"待处理" forState:UIControlStateNormal];
+        self.bottomBtn.layer.borderColor = [UIColor redColor].CGColor;
+        [self.bottomBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     }else{
         self.bottomWidthConst.constant = 70;
         [self.bottomBtn setTitle:@"已处理" forState:UIControlStateNormal];

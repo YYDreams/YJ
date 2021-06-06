@@ -52,7 +52,6 @@
                                     <constraint firstItem="cpK-p1-f5j" firstAttribute="centerY" secondItem="AAB-yi-p3h" secondAttribute="centerY" id="4W1-Pm-2Pz"/>
                                     <constraint firstItem="iOg-TF-tva" firstAttribute="centerY" secondItem="AAB-yi-p3h" secondAttribute="centerY" id="CDm-xa-LYB"/>
                                     <constraint firstItem="91S-0O-LvP" firstAttribute="leading" secondItem="iOg-TF-tva" secondAttribute="trailing" constant="2" id="K3S-cS-VfK"/>
-                                    <constraint firstAttribute="height" constant="56" id="eUx-X2-fgs"/>
                                     <constraint firstItem="91S-0O-LvP" firstAttribute="centerY" secondItem="cpK-p1-f5j" secondAttribute="centerY" id="vNU-Hy-Vvo"/>
                                     <constraint firstItem="iOg-TF-tva" firstAttribute="leading" secondItem="AAB-yi-p3h" secondAttribute="leading" constant="14" id="wKZ-OT-YZX"/>
                                     <constraint firstItem="91S-0O-LvP" firstAttribute="top" secondItem="AAB-yi-p3h" secondAttribute="top" constant="17" id="wnD-XG-VHo"/>
@@ -120,7 +119,6 @@
                             <constraint firstItem="AAB-yi-p3h" firstAttribute="top" secondItem="Tak-6B-wEp" secondAttribute="top" id="SuP-Tt-pLi"/>
                             <constraint firstItem="Emj-jo-cjF" firstAttribute="top" secondItem="arJ-2H-1vY" secondAttribute="bottom" constant="12" id="Tnz-BZ-ZEI"/>
                             <constraint firstItem="arJ-2H-1vY" firstAttribute="top" secondItem="AAB-yi-p3h" secondAttribute="bottom" id="j0C-lA-uOP"/>
-                            <constraint firstItem="arJ-2H-1vY" firstAttribute="height" secondItem="AAB-yi-p3h" secondAttribute="height" multiplier="0.785714" id="z4N-dq-jIW"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -138,6 +136,7 @@
                 <outlet property="bottomBtn" destination="Emj-jo-cjF" id="jC7-MC-bez"/>
                 <outlet property="bottomWidthConst" destination="Onv-9J-BnW" id="41K-fQ-NYg"/>
                 <outlet property="hallNameLabel" destination="iOg-TF-tva" id="mg4-2I-k1Q"/>
+                <outlet property="imgView" destination="QHm-lF-Hcc" id="BUX-tg-DoC"/>
                 <outlet property="playBtn" destination="eg2-Y5-6Sj" id="h1n-rN-ybe"/>
                 <outlet property="playView" destination="arJ-2H-1vY" id="SSP-2n-NLT"/>
                 <outlet property="roomLabel" destination="cpK-p1-f5j" id="LPV-sv-pJp"/>

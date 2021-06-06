@@ -10,6 +10,7 @@
 #import "BaseCell.h"
 NS_ASSUME_NONNULL_BEGIN
 
+
 @interface HomeCell : BaseCell
 @property (weak, nonatomic) IBOutlet UILabel *hallNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
@@ -17,17 +18,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *roomLabel;
 @property (weak, nonatomic) IBOutlet UIView *playView;
 
+@property (weak, nonatomic) IBOutlet UIImageView *imgView;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
 
 @property(strong , nonatomic) HomeModel *model;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomWidthConst;
 
+
 //完成呼叫回调
 @property(nonatomic ,copy)void(^handlerDoneCallBlock)(void);
 
+
 //播放音频回调
 @property(nonatomic ,copy)void(^handlerPlayBlock)();
+
 
 @end
 

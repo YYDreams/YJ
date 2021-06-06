@@ -34,14 +34,14 @@ static NSString * const HomeCellID = @"HomeCellID";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.audioPlayer = [[AVAudioPlayer alloc]init];
+    //    self.audioPlayer = [[AVAudioPlayer alloc]init];
     [self setupSubView];
     [self setupRefresh];
     
-
+    
 }
 - (void)setupRefresh{
-
+    
     [self setupRefreshTarget:self.tableView With:HHRefreshTypeHeader];
     
     [self loadDataFromNetworkWithPage:1 andStatu:3];
@@ -49,7 +49,7 @@ static NSString * const HomeCellID = @"HomeCellID";
 }
 
 - (void)loadDataFromNetworkWithPage:(int)pageNum andStatu:(int)status{
-
+    
     [HHHudManager showActivityMessageInView:@""];
     [self.dataArr removeAllObjects];
     WeakSelf;
@@ -60,13 +60,13 @@ static NSString * const HomeCellID = @"HomeCellID";
         
         if (Success && ![data isKindOfClass:[NSNull class]]) {
             self.dataArr = [HomeModel mj_objectArrayWithKeyValuesArray:data];
-                
+            
             [self.tableView reloadData];
             [weakSelf successEndRefreshStatus:status totalPage:1];
             
         }else{
             [weakSelf failEndRefreshStatus:status];
-
+            
             [HHHudManager showTipMessageInWindow:resposeObject[@"msg"]?:@"获取失败"];
         }
         if(kArrayIsEmpty(data)){
@@ -74,7 +74,7 @@ static NSString * const HomeCellID = @"HomeCellID";
         }
         
         
-       
+        
     } failure:^(NSError *error) {
         [HHHudManager hideHUD];
         self.currentPageStatus = PageStatusError;
@@ -95,18 +95,18 @@ static NSString * const HomeCellID = @"HomeCellID";
     
     [self.tableView registerNib:[UINib nibWithNibName:@"HomeCell" bundle:nil] forCellReuseIdentifier:HomeCellID];
     self.tableView.backgroundColor = [UIColor colorWithHex:0xF9F9F9];
-//        _tableView.estimatedRowHeight = 200;
+    //        _tableView.estimatedRowHeight = 200;
     self.tableView.rowHeight = 160;
     
-     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-         make.left.right.top.equalTo(self.view);
-         if (@available(iOS 11.0, *)) {
-                  make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-              } else {
-                  make.bottom.equalTo(self.view);
-              }
-         
-     }];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self.view);
+        if (@available(iOS 11.0, *)) {
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+        } else {
+            make.bottom.equalTo(self.view);
+        }
+        
+    }];
 }
 
 #pragma mark - JXPagingViewListViewDelegate
@@ -119,7 +119,7 @@ static NSString * const HomeCellID = @"HomeCellID";
 }
 
 - (void)listViewDidScrollCallback:(void (^)(UIScrollView *))callback {
-//    self.scrollCallback = callback;
+    //    self.scrollCallback = callback;
 }
 
 - (void)listWillAppear {
@@ -146,9 +146,9 @@ static NSString * const HomeCellID = @"HomeCellID";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-   HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:HomeCellID forIndexPath:indexPath];
-   HomeModel *model  = [self.dataArr safeObjectAtIndex:indexPath.row];
-
+    HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:HomeCellID forIndexPath:indexPath];
+    HomeModel *model  = [self.dataArr safeObjectAtIndex:indexPath.row];
+    
     
     cell.model = model;
     
@@ -158,68 +158,64 @@ static NSString * const HomeCellID = @"HomeCellID";
     };
     
     cell.handlerPlayBlock = ^() {
-        weakSelf.currentDuration = model.duration;
-        [weakSelf playWithUrl:model.voicePath];
-
-//        if (self.currentPlayUrl != model.voicePath) {
-            
-//            [[YJPlayMager sharedInstance]pause];
-            
-            if (model.duration > 0 ) {
-                NSTimer *timer  =  [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(numberCutDown:) userInfo:@(indexPath.row) repeats:YES];
-                [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-                
-            }
-       
-//        }
-        
-      
+        [weakSelf handerPlayWithModel:model indexPath:indexPath];
     };
     return  cell;
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    HomeModel *model  = [self.dataArr safeObjectAtIndex:indexPath.row];
+    [self handerPlayWithModel:model indexPath:indexPath];
+}
+
+- (void)handerPlayWithModel:(HomeModel *)model indexPath:(NSIndexPath *)indexPath{
+    WeakSelf;
+    weakSelf.currentDuration = model.duration;
+    [weakSelf playWithUrl:model.voicePath];
+    HomeCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    [cell.imgView startAnimating];
+    if (model.duration > 0 ) {
+        NSTimer *timer  =  [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(numberCutDown:) userInfo:@(indexPath.row) repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    }
+}
 
 -(void)numberCutDown:(NSTimer *)timer{
-    
-    NSLog(@"seurinfo:%@",timer.userInfo);
-    
+        
     //取出对应倒计时
     NSString * indexInteger = timer.userInfo;
-     NSInteger index = [indexInteger integerValue];
+    NSInteger index = [indexInteger integerValue];
     
     HomeModel *model = [self.dataArr safeObjectAtIndex:index];
-
-     //修改模型时间
-     model.duration --;
-     //刷新界面
-     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-     [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-     if (model.duration == 0)
-     {
-         model.duration = self.currentDuration;
-         NSLog(@"第%ld行的",model.duration);
-         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-         NSLog(@"第%ld行的定时器销毁了",index);
-         [timer invalidate];
-         timer = nil;
-  
-         return;
-     }else{
-         
-     }
+    
+    //修改模型时间
+    model.duration --;
+    //刷新界面
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    HomeCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    if (model.duration == 0)
+    {
+        [cell.imgView stopAnimating];
+        model.duration = self.currentDuration;
+        NSLog(@"第%ld行的",model.duration);
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        NSLog(@"第%ld行的定时器销毁了",index);
+        [timer invalidate];
+        timer = nil;
+        return;
+    }else{
+        
+    }
     
     
 }
 - (void)playWithUrl:(NSString *)url{
     self.currentPlayUrl = url;
-    
- YJPlayMager *audioPlayer =    [[YJPlayMager sharedInstance]initWithURL:[NSURL URLWithString:url relativeToURL:nil]];
+    YJPlayMager *audioPlayer =    [[YJPlayMager sharedInstance]initWithURL:[NSURL URLWithString:url relativeToURL:nil]];
     NSLog(@"audioPlayeraudioPlayer:%p %@",audioPlayer, url);
     [[YJPlayMager sharedInstance]play];
-
-    
 }
-
 - (void)loadDataCompleteCallWithID:(NSString *)ID{
     
     [HHHudManager showActivityMessageInView:@""];
@@ -237,13 +233,6 @@ static NSString * const HomeCellID = @"HomeCellID";
     }];
     
 }
-
-- (void)timerActionWithCell:(NSIndexPath *)index{
-    
-    
-    
-}
-
 - (void)dealloc{
     [self.timer invalidate];
     self.timer = nil;
