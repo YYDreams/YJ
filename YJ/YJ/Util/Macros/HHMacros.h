@@ -128,11 +128,11 @@ isiPhoneX;\
 
 
 //打印
-#if DEBUG
-#define NSLog(fmt,...) NSLog((@"%s [Line %d]" fmt),__PRETTY_FUNCTION__,__LINE__,##__VA_ARGS__)
-#else
-#define NSLog(...)
-#endif
+//#if DEBUG
+//#define NSLog(fmt,...) NSLog((@"%s [Line %d]" fmt),__PRETTY_FUNCTION__,__LINE__,##__VA_ARGS__)
+//#else
+//#define NSLog(...)
+//#endif
 
 
 /*----------------------------------color 相关----------------------------------*/

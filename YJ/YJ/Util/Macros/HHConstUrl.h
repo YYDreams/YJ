@@ -23,4 +23,6 @@ UIKIT_EXTERN NSString  * const kCompleteCallUrl;
 //服务生--上传并修改头像
 UIKIT_EXTERN NSString  * const kUploadAvatarUrl;
 
+//服务生--响应呼叫请求
+UIKIT_EXTERN NSString  * const kResponseCallUrl;
 

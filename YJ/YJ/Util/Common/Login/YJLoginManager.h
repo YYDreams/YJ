@@ -25,6 +25,9 @@ SC_SINGLETON_DEF;
 
 - (void)doLogout;
 
+//配置极光推送别名
+- (void)configAliases;
+
 
 @end
 

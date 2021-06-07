@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		075C45B442ACEBD21B45F35B /* Pods_YJTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B89D6251BF7DABC027F93FC /* Pods_YJTests.framework */; };
+		35B258844C71747B153C9726 /* Pods_YJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C34FE3E98CD8D003D2649E4 /* Pods_YJ.framework */; };
 		51288357266503BE0010C940 /* HHActionSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51288354266503BE0010C940 /* HHActionSheetView.m */; };
 		51288358266503BE0010C940 /* HHActionSheetAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 51288355266503BE0010C940 /* HHActionSheetAction.m */; };
 		51288359266503BE0010C940 /* HHActionSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51288356266503BE0010C940 /* HHActionSheetController.m */; };
@@ -221,6 +222,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35B258844C71747B153C9726 /* Pods_YJ.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1105,7 +1107,7 @@
 				CODE_SIGN_ENTITLEMENTS = YJ/YJ.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = P876T3DAQ6;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/YJ/PrefixHeader.pch";
 				INFOPLIST_FILE = YJ/Info.plist;
@@ -1129,7 +1131,7 @@
 				CODE_SIGN_ENTITLEMENTS = YJ/YJ.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = P876T3DAQ6;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/YJ/PrefixHeader.pch";
 				INFOPLIST_FILE = YJ/Info.plist;

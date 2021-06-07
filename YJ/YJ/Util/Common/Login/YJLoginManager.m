@@ -13,7 +13,6 @@
 
 SC_SINGLETON_IMP;
 
-
 - (void)setModel:(UserInfoModel *)model{
     _model = model;
     [self saveUserModel];
@@ -23,14 +22,7 @@ SC_SINGLETON_IMP;
      
     [HHAppStorage sharedInstance].lastUserModel = _model;
     
-    [self setupPushUserName];
-}
-//设置push别名<可根据手机号进行推送>
-- (void)setupPushUserName{
-    
-    [JPUSHService setAlias:HHString([HHAppStorage sharedInstance].lastUserModel.mobile, @"匿名") completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-        NSLog(@"rescode: %ld, \ntags: %@, \nalias:\n", (long)iResCode, iAlias);
-    } seq:0];
+    [self configAliases];
 }
 -(UserInfoModel *)model{
     if (!_model) {
@@ -79,6 +71,50 @@ SC_SINGLETON_IMP;
 - (NSString *)token{
     
     return [[NSUserDefaults standardUserDefaults]valueForKey:kToken];
+}
+
+/////配置极光推送别名
+- (void)configAliases{
+    if ([[YJLoginManager sharedInstance] isLogin]) {
+        //查询别名的设备数
+        NSString *iAlias = HHString([YJLoginManager sharedInstance].model.mobile, @"");
+        NSString *urlString = [NSString stringWithFormat:@"https://device.jpush.cn/v3/aliases/%@",iAlias];
+        [HTTPRequest GETOriginal:urlString parameter:nil success:^(id resposeObject) {
+            // 会返回指定别名绑定的所有RegistrationID(最多10个)
+            // 如果设备数大于等于10，则进行删除操作
+            NSArray *registration_ids = HHArray(resposeObject[@"registration_ids"], @[]);
+            if (registration_ids.count >=10) {
+                [self deleAliasRequestWithregistration_ids:registration_ids];
+            }else{
+                [self configAlias];
+            }
+            NSLog(@"resposeObjectresposeObject: %zd  %@ ",registration_ids.count,registration_ids);
+        
+        } failure:^(NSError *error) {
+            [self configAlias];
+        }];
+    }
+}
+//配置别名
+- (void)configAlias{
+    
+    [JPUSHService setAlias:HHString([YJLoginManager sharedInstance].model.mobile,@"匿名") completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+        NSLog(@"rescode: %ld, \ntags: %@, \nalias:\n", (long)iResCode, iAlias);
+    } seq:0];
+    
+}
+//批量解除绑定
+- (void)deleAliasRequestWithregistration_ids:(NSArray *)registration_ids{
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"registration_ids"] =  @{@"remove":registration_ids};
+    NSString *iAlias = HHString([YJLoginManager sharedInstance].model.mobile, @"");
+    NSString *urlString = [NSString stringWithFormat:@"https://device.jpush.cn/v3/aliases/%@",iAlias];
+    [HTTPRequest POSTOriginal:urlString parameter:parameter success:^(id resposeObject) {
+        NSLog(@"批量解除绑定: %@ ",resposeObject);
+        [self configAlias];
+    } failure:^(NSError *error) {
+        [self configAlias];
+    }];
 }
 
 @end

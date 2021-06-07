@@ -17,4 +17,6 @@
 - (void)initAudio;
 
 - (void)initFloatBtn;
+
+- (void)showWindowLogger;
 @end

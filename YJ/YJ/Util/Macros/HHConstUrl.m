@@ -21,6 +21,9 @@ NSString  * const kCompleteCallUrl = @"/jeeplus/a/web/yjMahjongHallWaiters/compl
 //服务生--上传并修改头像
 NSString  * const kUploadAvatarUrl = @"/jeeplus/a/web/yjMahjongHallWaiters/uploadAvatar";
 
+//服务生--响应呼叫请求
+NSString  * const kResponseCallUrl = @"/jeeplus/a/web/yjMahjongHallWaiters/responseCall";
+
 
 
 

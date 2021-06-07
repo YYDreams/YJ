@@ -81,5 +81,10 @@
     
 }
 
+- (void)showWindowLogger{
+    
+
+}
+
 
 @end

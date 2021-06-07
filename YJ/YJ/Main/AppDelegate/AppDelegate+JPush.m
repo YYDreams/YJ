@@ -21,6 +21,7 @@
 
 #import "BaseNavViewController.h"
 #import "HHToastAlertView.h"
+
 @interface AppDelegate ()<JPUSHRegisterDelegate>
 
 @end
@@ -73,7 +74,8 @@
         }
     }
     //设置别名
-    [self setupAlias];
+    [[YJLoginManager sharedInstance] configAliases];
+    
     
     //检测通知授权情况。可选项，不一定要放在此处，可以运行一定时间后再调用
 //    [self performSelector:@selector(checkNotificationAuthorization) withObject:nil afterDelay:2];
@@ -102,14 +104,6 @@
           }
       }];
   }
-}
-
-- (void)setupAlias{
-    if ([[YJLoginManager sharedInstance] isLogin]) {
-        [JPUSHService setAlias:HHString([YJLoginManager sharedInstance].model.mobile, @"匿名") completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-            NSLog(@"rescode: %ld, \ntags: %@, \nalias:\n", (long)iResCode, iAlias);
-        } seq:0];
-    }
 }
 
 #pragma mark - SEL

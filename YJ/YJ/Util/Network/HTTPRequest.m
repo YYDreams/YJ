@@ -14,6 +14,7 @@
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 //#import "Reachability.h"
+#import "JPUSHService.h"
 
 @implementation LYRequestModel
 
@@ -97,13 +98,13 @@
     // 如果已有Cookie, 则把你的cookie符上
     NSString *cookie = [YJLoginManager sharedInstance].token;
     if (cookie != nil) {
-        [manager.requestSerializer setValue:cookie forHTTPHeaderField:@"Authorization"];
+        [manager.requestSerializer setValue:cookie  forHTTPHeaderField:@"Authorization"];
     }
     
     //配置公共参数
     parameter = [AFHTTPSessionManager configBaseParmars:parameter];
     NSURLSessionDataTask *task = [manager GET:[HTTPRequest InterfaceUrl:urlString] parameters:parameter headers:nil progress:nil  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"urlString: %@ --\n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
+        NSLog(@"urlString: %@ \n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
               NSString *response = nil;
               if ([responseObject isKindOfClass:[NSData class]]) {
                   response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
@@ -162,7 +163,7 @@
     
     [HTTPRequest showActive];
     NSURLSessionDataTask *task =   [manager POST:[HTTPRequest InterfaceUrl:urlString] parameters:parameter headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"urlString: %@ --\n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
+        NSLog(@"urlString: %@ \n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
         
 //        NSHTTPURLResponse* urlresponse = (NSHTTPURLResponse* )task.response;
 //        NSDictionary *allHeaderFieldsDic = urlresponse.allHeaderFields;
@@ -221,7 +222,7 @@
     
     [HTTPRequest showActive];
     NSURLSessionDataTask *task =   [manager PUT:[HTTPRequest InterfaceUrl:urlString] parameters:parameter headers:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"urlString: %@ --\n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
+        NSLog(@"urlString: %@ \n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
         
 //        NSHTTPURLResponse* urlresponse = (NSHTTPURLResponse* )task.response;
 //        NSDictionary *allHeaderFieldsDic = urlresponse.allHeaderFields;
@@ -441,4 +442,90 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
+
++ (LYRequestModel *)GETOriginal:(NSString *)urlString parameter:(NSDictionary *)parameter success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue{
+    AFHTTPSessionManager *manager = [HTTPRequest requestManager];
+    
+    [manager.requestSerializer setValue:[HTTPRequest getJPushBase64AuthString] forHTTPHeaderField:@"Authorization"];
+
+    NSURLSessionDataTask *task = [manager GET:urlString parameters:parameter headers:nil progress:nil  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"urlString: %@ \n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
+        NSString *response = nil;
+        if ([responseObject isKindOfClass:[NSData class]]) {
+            response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+            NSData *data = [response dataUsingEncoding:NSUTF8StringEncoding];
+            id dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            
+            if ([dic isKindOfClass:[NSArray class]]) {
+                dic = [dic firstObject];
+            }
+            [HTTPRequest handelSuccessRequest:task responseObject:dic success:success fail:failue];
+            return;
+        }
+        
+        if (responseObject&&[responseObject isKindOfClass:[NSDictionary class]]){
+            [HTTPRequest handelSuccessRequest:task responseObject:responseObject success:success fail:failue];
+        }
+        else if (responseObject&&[responseObject isKindOfClass:[NSArray class]]){
+            [HTTPRequest handelSuccessRequest:task responseObject:responseObject success:success fail:failue];
+        }
+        else {
+            NSError * error = [NSError errorWithDomain:@"服务器出错了" code:-100 userInfo:@{@"message":@"服务器返回的不是json或者是空对象"}];
+            [HTTPRequest handelFailRequest:task err:error fail:failue];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [HTTPRequest handelFailRequest:task err:error fail:failue];
+        
+    }];
+    
+    LYRequestModel *requestModel = [LYRequestModel newWithTask:task];
+    return requestModel;
+}
++ (LYRequestModel *)POSTOriginal:(NSString *)urlString parameter:(NSDictionary *)parameter success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue{
+    AFHTTPSessionManager *manager = [HTTPRequest requestManager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[HTTPRequest getJPushBase64AuthString] forHTTPHeaderField:@"Authorization"];
+
+    NSURLSessionDataTask *task = [manager POST:urlString parameters:parameter headers:nil progress:nil  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"urlString: %@ \n parameter%@ \n responseObject: %@",[HTTPRequest InterfaceUrl:urlString],parameter, responseObject);
+        NSString *response = nil;
+        if ([responseObject isKindOfClass:[NSData class]]) {
+            response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+            NSData *data = [response dataUsingEncoding:NSUTF8StringEncoding];
+            id dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            
+            if ([dic isKindOfClass:[NSArray class]]) {
+                dic = [dic firstObject];
+            }
+            [HTTPRequest handelSuccessRequest:task responseObject:dic success:success fail:failue];
+            return;
+        }
+        
+        if (responseObject&&[responseObject isKindOfClass:[NSDictionary class]]){
+            [HTTPRequest handelSuccessRequest:task responseObject:responseObject success:success fail:failue];
+        }
+        else if (responseObject&&[responseObject isKindOfClass:[NSArray class]]){
+            [HTTPRequest handelSuccessRequest:task responseObject:responseObject success:success fail:failue];
+        }
+        else {
+            NSError * error = [NSError errorWithDomain:@"服务器出错了" code:-100 userInfo:@{@"message":@"服务器返回的不是json或者是空对象"}];
+            [HTTPRequest handelFailRequest:task err:error fail:failue];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [HTTPRequest handelFailRequest:task err:error fail:failue];
+        
+    }];
+    
+    LYRequestModel *requestModel = [LYRequestModel newWithTask:task];
+    return requestModel;
+}
+//极光base64_auth_string
++ (NSString *)getJPushBase64AuthString{
+    NSString *authString = [NSString stringWithFormat:@"%@:%@",JPushAppKey,JPushAppSecret];
+    NSData *authData =  [authString dataUsingEncoding: NSUTF8StringEncoding];
+    NSData *base64Data = [authData base64EncodedDataWithOptions:0];
+    NSString *base64 = [[NSString alloc]initWithData:base64Data encoding:NSUTF8StringEncoding];
+    NSString *base64AuthString =[NSString stringWithFormat:@"Basic %@",base64];
+    return base64AuthString;
+}
 @end

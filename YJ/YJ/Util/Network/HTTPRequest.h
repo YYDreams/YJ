@@ -61,4 +61,13 @@ typedef void(^requestErrorCallBack)(NSError *error);
 
 +(void)UPLOAD:(NSString*)url image:(UIImage *)image parameter:(id)parameter  progress:(void(^)(CGFloat progress))progres        success:(void (^)(id resposeObject))success
       failure:(void (^)(NSError *error))failure;
+
+
+/***    下面两个用于极光查询别名的设备数以及批量解除绑定***/
+
+//未封装baseul
++ (LYRequestModel *)GETOriginal:(NSString *)urlString parameter:(NSDictionary *)parameter success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue;
+//未封装baseul
++ (LYRequestModel *)POSTOriginal:(NSString *)urlString parameter:(NSDictionary *)parameter success:(requestSuccessCallBack)success failure:(requestErrorCallBack)failue;
+
 @end

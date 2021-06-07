@@ -154,7 +154,8 @@ static NSString * const HomeCellID = @"HomeCellID";
     
     WeakSelf;
     cell.handlerDoneCallBlock = ^{
-        [weakSelf loadDataCompleteCallWithID:model.ID];
+        [weakSelf loadDataCompleteCallWithUrlString:kCompleteCallUrl ID:model.ID];
+        
     };
     
     cell.handlerPlayBlock = ^() {
@@ -170,7 +171,7 @@ static NSString * const HomeCellID = @"HomeCellID";
 - (void)handerPlayWithModel:(HomeModel *)model indexPath:(NSIndexPath *)indexPath{
     WeakSelf;
     weakSelf.currentDuration = model.duration;
-    [weakSelf playWithUrl:model.voicePath];
+    [weakSelf playWithUrl:model.voicePath state: model.state ID:model.ID];
     HomeCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     [cell.imgView startAnimating];
     if (model.duration > 0 ) {
@@ -210,17 +211,28 @@ static NSString * const HomeCellID = @"HomeCellID";
     
     
 }
-- (void)playWithUrl:(NSString *)url{
+- (void)playWithUrl:(NSString *)url  state:(NSInteger)state ID:(NSString *)ID{
+    WeakSelf;
     self.currentPlayUrl = url;
     YJPlayMager *audioPlayer =    [[YJPlayMager sharedInstance]initWithURL:[NSURL URLWithString:url relativeToURL:nil]];
     NSLog(@"audioPlayeraudioPlayer:%p %@",audioPlayer, url);
     [[YJPlayMager sharedInstance]play];
-}
-- (void)loadDataCompleteCallWithID:(NSString *)ID{
+    //播放掉kResponseCallUrl
+    if (state == 1) {
+        [weakSelf loadDataCompleteCallWithUrlString:kResponseCallUrl ID:ID];
+
+    }
+
     
+}
+//state == 1 ?kCompleteCallUrl : kResponseCallUrl
+- (void)loadDataCompleteCallWithUrlString:(NSString *)urlString ID:(NSString *)ID{
+    
+    //state 1-待处理 2-已处理 3-处理中
     [HHHudManager showActivityMessageInView:@""];
     WeakSelf;
-    [HTTPRequest PUT:kCompleteCallUrl parameter:@{@"id":ID} success:^(id resposeObject) {
+    
+    [HTTPRequest PUT: urlString parameter:@{@"id":ID} success:^(id resposeObject) {
         [HHHudManager hideHUD];
         if (Success) {
             [weakSelf loadDataFromNetworkWithPage:1 andStatu:3];

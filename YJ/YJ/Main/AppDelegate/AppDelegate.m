@@ -29,12 +29,24 @@
     
     [self initMMKV];
     
+    
 //    [self initFloatBtn];
     
+#if TARGET_IPHONE_SIMULATOR //模拟器
+ 
+#elif TARGET_OS_IPHONE //真机
+    
     [self initJPushWithLanchOption:launchOptions];
+ 
+#endif
+    
+//
     
     
     [self.window makeKeyAndVisible];
+    
+    [self showWindowLogger];
+
     
     return YES;
 }
